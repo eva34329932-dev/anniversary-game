@@ -1,0 +1,954 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+  <meta http-equiv="Content-Style-Type" content="text/css">
+  <title></title>
+  <meta name="Generator" content="Cocoa HTML Writer">
+  <meta name="CocoaVersion" content="2685.7">
+  <style type="text/css">
+    p.p1 {margin: 0.0px 0.0px 0.0px 0.0px; font: 12.0px Helvetica}
+    p.p2 {margin: 0.0px 0.0px 0.0px 0.0px; font: 12.0px Helvetica; min-height: 14.0px}
+  </style>
+</head>
+<body>
+<p class="p1">&lt;!DOCTYPE html&gt;</p>
+<p class="p1">&lt;html lang="zh-Hant"&gt;</p>
+<p class="p1">&lt;head&gt;</p>
+<p class="p1"><span class="Apple-converted-space">  </span>&lt;meta charset="UTF-8" /&gt;</p>
+<p class="p1"><span class="Apple-converted-space">  </span>&lt;meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" /&gt;</p>
+<p class="p1"><span class="Apple-converted-space">  </span>&lt;title&gt;兩週年專屬帳單｜掃描繳費取得獎勵&lt;/title&gt;</p>
+<p class="p1"><span class="Apple-converted-space">  </span>&lt;style&gt;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>:root {</p>
+<p class="p1"><span class="Apple-converted-space">      </span>--bg-dark: #0f172a;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>--card-bg: #1e293b;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>--card-border: #334155;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>--gold: #fbbf24;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>--gold-dark: #d97706;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>--rose: #fb7185;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>--rose-dark: #e11d48;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>--emerald: #34d399;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>--text-main: #f8fafc;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>--text-muted: #94a3b8;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>}</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">    </span>* {</p>
+<p class="p1"><span class="Apple-converted-space">      </span>box-sizing: border-box;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>margin: 0;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>padding: 0;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>-webkit-tap-highlight-color: transparent;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>}</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">    </span>body {</p>
+<p class="p1"><span class="Apple-converted-space">      </span>font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "PingFang TC", "Microsoft JhengHei", sans-serif;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>background: radial-gradient(circle at top, #1e1b4b 0%, #0f172a 65%, #020617 100%);</p>
+<p class="p1"><span class="Apple-converted-space">      </span>color: var(--text-main);</p>
+<p class="p1"><span class="Apple-converted-space">      </span>min-height: 100vh;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>padding: 16px;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>line-height: 1.5;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>}</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">    </span>.container {</p>
+<p class="p1"><span class="Apple-converted-space">      </span>max-width: 460px;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>margin: 0 auto;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>padding-bottom: 40px;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>}</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">    </span>/* 頂部銀行標頭 */</p>
+<p class="p1"><span class="Apple-converted-space">    </span>.bank-header {</p>
+<p class="p1"><span class="Apple-converted-space">      </span>display: flex;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>justify-content: space-between;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>align-items: center;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>padding: 12px 4px 18px;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>border-bottom: 1px solid rgba(251, 191, 36, 0.25);</p>
+<p class="p1"><span class="Apple-converted-space">      </span>margin-bottom: 18px;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>}</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">    </span>.bank-logo {</p>
+<p class="p1"><span class="Apple-converted-space">      </span>display: flex;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>align-items: center;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>gap: 8px;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>font-weight: 800;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>font-size: 16px;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>letter-spacing: 0.5px;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>color: var(--gold);</p>
+<p class="p1"><span class="Apple-converted-space">    </span>}</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">    </span>.badge-vip {</p>
+<p class="p1"><span class="Apple-converted-space">      </span>background: linear-gradient(135deg, #fbbf24, #b45309);</p>
+<p class="p1"><span class="Apple-converted-space">      </span>color: #0f172a;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>font-size: 11px;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>font-weight: 800;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>padding: 3px 8px;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>border-radius: 999px;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>}</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">    </span>/* 黑金信用卡視覺 */</p>
+<p class="p1"><span class="Apple-converted-space">    </span>.credit-card {</p>
+<p class="p1"><span class="Apple-converted-space">      </span>background: linear-gradient(135deg, #1e293b 0%, #0f172a 55%, #27272a 100%);</p>
+<p class="p1"><span class="Apple-converted-space">      </span>border: 1px solid rgba(251, 191, 36, 0.45);</p>
+<p class="p1"><span class="Apple-converted-space">      </span>border-radius: 18px;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>padding: 20px;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>box-shadow: 0 14px 30px rgba(0, 0, 0, 0.45), inset 0 1px 0 rgba(255, 255, 255, 0.12);</p>
+<p class="p1"><span class="Apple-converted-space">      </span>position: relative;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>overflow: hidden;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>margin-bottom: 18px;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>}</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">    </span>.credit-card::after {</p>
+<p class="p1"><span class="Apple-converted-space">      </span>content: "";</p>
+<p class="p1"><span class="Apple-converted-space">      </span>position: absolute;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>top: -40%;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>right: -20%;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>width: 200px;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>height: 200px;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>background: radial-gradient(circle, rgba(251, 191, 36, 0.16), transparent 70%);</p>
+<p class="p1"><span class="Apple-converted-space">      </span>pointer-events: none;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>}</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">    </span>.card-top {</p>
+<p class="p1"><span class="Apple-converted-space">      </span>display: flex;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>justify-content: space-between;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>align-items: center;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>margin-bottom: 18px;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>}</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">    </span>.chip {</p>
+<p class="p1"><span class="Apple-converted-space">      </span>width: 38px;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>height: 28px;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>border-radius: 6px;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>background: linear-gradient(135deg, #fde68a, #d97706);</p>
+<p class="p1"><span class="Apple-converted-space">      </span>border: 1px solid #fef3c7;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>}</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">    </span>.card-type {</p>
+<p class="p1"><span class="Apple-converted-space">      </span>font-size: 12px;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>color: var(--gold);</p>
+<p class="p1"><span class="Apple-converted-space">      </span>font-weight: 700;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>letter-spacing: 1px;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>}</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">    </span>.card-number {</p>
+<p class="p1"><span class="Apple-converted-space">      </span>font-family: "Courier New", Courier, monospace;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>font-size: 18px;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>letter-spacing: 2.5px;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>color: #f1f5f9;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>margin-bottom: 16px;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>font-weight: 700;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>}</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">    </span>.card-bottom {</p>
+<p class="p1"><span class="Apple-converted-space">      </span>display: flex;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>justify-content: space-between;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>font-size: 12px;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>color: var(--text-muted);</p>
+<p class="p1"><span class="Apple-converted-space">    </span>}</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">    </span>.card-bottom strong {</p>
+<p class="p1"><span class="Apple-converted-space">      </span>display: block;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>color: #f8fafc;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>font-size: 13px;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>margin-top: 2px;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>}</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">    </span>/* 帳單摘要面板 */</p>
+<p class="p1"><span class="Apple-converted-space">    </span>.statement-box {</p>
+<p class="p1"><span class="Apple-converted-space">      </span>background: rgba(30, 41, 59, 0.85);</p>
+<p class="p1"><span class="Apple-converted-space">      </span>border: 1px solid var(--card-border);</p>
+<p class="p1"><span class="Apple-converted-space">      </span>border-radius: 16px;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>padding: 18px;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>margin-bottom: 18px;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>}</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">    </span>.statement-row {</p>
+<p class="p1"><span class="Apple-converted-space">      </span>display: flex;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>justify-content: space-between;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>align-items: baseline;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>margin-bottom: 12px;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>}</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">    </span>.amount-due {</p>
+<p class="p1"><span class="Apple-converted-space">      </span>font-size: 26px;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>font-weight: 900;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>color: var(--rose);</p>
+<p class="p1"><span class="Apple-converted-space">    </span>}</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">    </span>.amount-due.paid {</p>
+<p class="p1"><span class="Apple-converted-space">      </span>color: var(--emerald);</p>
+<p class="p1"><span class="Apple-converted-space">    </span>}</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">    </span>.progress-wrap {</p>
+<p class="p1"><span class="Apple-converted-space">      </span>background: #0f172a;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>border-radius: 999px;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>height: 10px;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>overflow: hidden;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>margin: 10px 0 6px;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>border: 1px solid #334155;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>}</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">    </span>.progress-bar {</p>
+<p class="p1"><span class="Apple-converted-space">      </span>height: 100%;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>width: 0%;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>background: linear-gradient(90deg, var(--rose), var(--gold));</p>
+<p class="p1"><span class="Apple-converted-space">      </span>transition: width 0.4s ease;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>}</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">    </span>.progress-text {</p>
+<p class="p1"><span class="Apple-converted-space">      </span>display: flex;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>justify-content: space-between;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>font-size: 12px;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>color: var(--text-muted);</p>
+<p class="p1"><span class="Apple-converted-space">    </span>}</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">    </span>/* 任務卡片列表 */</p>
+<p class="p1"><span class="Apple-converted-space">    </span>.section-title {</p>
+<p class="p1"><span class="Apple-converted-space">      </span>font-size: 14px;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>font-weight: 700;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>color: var(--gold);</p>
+<p class="p1"><span class="Apple-converted-space">      </span>margin-bottom: 10px;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>letter-spacing: 0.5px;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>}</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">    </span>.task-card {</p>
+<p class="p1"><span class="Apple-converted-space">      </span>background: var(--card-bg);</p>
+<p class="p1"><span class="Apple-converted-space">      </span>border: 1px solid var(--card-border);</p>
+<p class="p1"><span class="Apple-converted-space">      </span>border-radius: 14px;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>padding: 15px 16px;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>margin-bottom: 12px;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>display: flex;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>justify-content: space-between;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>align-items: center;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>cursor: pointer;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>transition: transform 0.15s ease, border-color 0.2s ease;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>}</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">    </span>.task-card:active {</p>
+<p class="p1"><span class="Apple-converted-space">      </span>transform: scale(0.98);</p>
+<p class="p1"><span class="Apple-converted-space">    </span>}</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">    </span>.task-card.done {</p>
+<p class="p1"><span class="Apple-converted-space">      </span>border-color: rgba(52, 211, 153, 0.5);</p>
+<p class="p1"><span class="Apple-converted-space">      </span>background: rgba(6, 78, 59, 0.25);</p>
+<p class="p1"><span class="Apple-converted-space">    </span>}</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">    </span>.task-info h3 {</p>
+<p class="p1"><span class="Apple-converted-space">      </span>font-size: 16px;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>margin-bottom: 4px;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>display: flex;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>align-items: center;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>gap: 6px;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>}</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">    </span>.task-info p {</p>
+<p class="p1"><span class="Apple-converted-space">      </span>font-size: 12px;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>color: var(--text-muted);</p>
+<p class="p1"><span class="Apple-converted-space">    </span>}</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">    </span>.task-status {</p>
+<p class="p1"><span class="Apple-converted-space">      </span>font-size: 12px;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>font-weight: 700;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>padding: 6px 12px;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>border-radius: 999px;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>background: rgba(251, 113, 133, 0.18);</p>
+<p class="p1"><span class="Apple-converted-space">      </span>color: var(--rose);</p>
+<p class="p1"><span class="Apple-converted-space">      </span>white-space: nowrap;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>}</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">    </span>.task-card.done .task-status {</p>
+<p class="p1"><span class="Apple-converted-space">      </span>background: rgba(52, 211, 153, 0.2);</p>
+<p class="p1"><span class="Apple-converted-space">      </span>color: var(--emerald);</p>
+<p class="p1"><span class="Apple-converted-space">    </span>}</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">    </span>/* 按鈕通用樣式 */</p>
+<p class="p1"><span class="Apple-converted-space">    </span>.btn {</p>
+<p class="p1"><span class="Apple-converted-space">      </span>display: inline-flex;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>align-items: center;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>justify-content: center;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>gap: 6px;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>border: none;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>border-radius: 12px;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>padding: 12px 18px;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>font-size: 15px;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>font-weight: 700;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>cursor: pointer;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>width: 100%;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>transition: opacity 0.2s, transform 0.1s;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>}</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">    </span>.btn:active {</p>
+<p class="p1"><span class="Apple-converted-space">      </span>transform: scale(0.98);</p>
+<p class="p1"><span class="Apple-converted-space">    </span>}</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">    </span>.btn-gold {</p>
+<p class="p1"><span class="Apple-converted-space">      </span>background: linear-gradient(135deg, #fbbf24, #d97706);</p>
+<p class="p1"><span class="Apple-converted-space">      </span>color: #0f172a;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>box-shadow: 0 6px 20px rgba(217, 119, 6, 0.35);</p>
+<p class="p1"><span class="Apple-converted-space">    </span>}</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">    </span>.btn-ghost {</p>
+<p class="p1"><span class="Apple-converted-space">      </span>background: #334155;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>color: #f8fafc;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>padding: 8px 14px;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>font-size: 13px;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>width: auto;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>}</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">    </span>/* 關卡視圖切換 */</p>
+<p class="p1"><span class="Apple-converted-space">    </span>.view {</p>
+<p class="p1"><span class="Apple-converted-space">      </span>display: none;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>animation: fadeIn 0.25s ease;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>}</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">    </span>.view.active {</p>
+<p class="p1"><span class="Apple-converted-space">      </span>display: block;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>}</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">    </span>@keyframes fadeIn {</p>
+<p class="p1"><span class="Apple-converted-space">      </span>from { opacity: 0; transform: translateY(6px); }</p>
+<p class="p1"><span class="Apple-converted-space">      </span>to { opacity: 1; transform: translateY(0); }</p>
+<p class="p1"><span class="Apple-converted-space">    </span>}</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">    </span>.game-header {</p>
+<p class="p1"><span class="Apple-converted-space">      </span>display: flex;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>justify-content: space-between;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>align-items: center;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>margin-bottom: 14px;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>}</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">    </span>.game-header h2 {</p>
+<p class="p1"><span class="Apple-converted-space">      </span>font-size: 18px;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>color: var(--gold);</p>
+<p class="p1"><span class="Apple-converted-space">    </span>}</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">    </span>.hint-banner {</p>
+<p class="p1"><span class="Apple-converted-space">      </span>background: rgba(251, 191, 36, 0.12);</p>
+<p class="p1"><span class="Apple-converted-space">      </span>border: 1px solid rgba(251, 191, 36, 0.3);</p>
+<p class="p1"><span class="Apple-converted-space">      </span>color: #fde68a;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>padding: 10px 12px;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>border-radius: 10px;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>font-size: 13px;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>margin-bottom: 14px;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>}</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">    </span>/* 關卡一：記憶翻牌 */</p>
+<p class="p1"><span class="Apple-converted-space">    </span>.memory-grid {</p>
+<p class="p1"><span class="Apple-converted-space">      </span>display: grid;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>grid-template-columns: repeat(3, 1fr);</p>
+<p class="p1"><span class="Apple-converted-space">      </span>gap: 10px;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>margin-bottom: 16px;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>}</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">    </span>.mem-card {</p>
+<p class="p1"><span class="Apple-converted-space">      </span>aspect-ratio: 3 / 4;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>perspective: 800px;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>cursor: pointer;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>}</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">    </span>.mem-inner {</p>
+<p class="p1"><span class="Apple-converted-space">      </span>width: 100%;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>height: 100%;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>position: relative;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>transform-style: preserve-3d;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>transition: transform 0.45s cubic-bezier(0.2, 0.8, 0.2, 1);</p>
+<p class="p1"><span class="Apple-converted-space">      </span>border-radius: 12px;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>}</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">    </span>.mem-card.flipped .mem-inner,</p>
+<p class="p1"><span class="Apple-converted-space">    </span>.mem-card.matched .mem-inner {</p>
+<p class="p1"><span class="Apple-converted-space">      </span>transform: rotateY(180deg);</p>
+<p class="p1"><span class="Apple-converted-space">    </span>}</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">    </span>.mem-face {</p>
+<p class="p1"><span class="Apple-converted-space">      </span>position: absolute;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>inset: 0;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>backface-visibility: hidden;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>border-radius: 12px;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>overflow: hidden;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>border: 1.5px solid #475569;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>}</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">    </span>.mem-front {</p>
+<p class="p1"><span class="Apple-converted-space">      </span>background: linear-gradient(135deg, #1e293b, #0f172a);</p>
+<p class="p1"><span class="Apple-converted-space">      </span>display: flex;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>flex-direction: column;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>align-items: center;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>justify-content: center;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>color: var(--gold);</p>
+<p class="p1"><span class="Apple-converted-space">      </span>font-weight: 800;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>font-size: 18px;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>}</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">    </span>.mem-front span {</p>
+<p class="p1"><span class="Apple-converted-space">      </span>font-size: 10px;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>color: var(--text-muted);</p>
+<p class="p1"><span class="Apple-converted-space">      </span>margin-top: 4px;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>}</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">    </span>.mem-back {</p>
+<p class="p1"><span class="Apple-converted-space">      </span>transform: rotateY(180deg);</p>
+<p class="p1"><span class="Apple-converted-space">      </span>background: #0f172a;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>}</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">    </span>.mem-back img {</p>
+<p class="p1"><span class="Apple-converted-space">      </span>width: 100%;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>height: 100%;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>object-fit: cover;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>display: block;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>}</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">    </span>/* 關卡二：找碴 */</p>
+<p class="p1"><span class="Apple-converted-space">    </span>.diff-container {</p>
+<p class="p1"><span class="Apple-converted-space">      </span>display: flex;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>flex-direction: column;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>gap: 12px;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>margin-bottom: 14px;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>}</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">    </span>.diff-box {</p>
+<p class="p1"><span class="Apple-converted-space">      </span>position: relative;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>border-radius: 12px;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>overflow: hidden;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>border: 2px solid #475569;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>background: #0f172a;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>}</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">    </span>.diff-label {</p>
+<p class="p1"><span class="Apple-converted-space">      </span>position: absolute;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>top: 8px;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>left: 8px;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>background: rgba(15, 23, 42, 0.85);</p>
+<p class="p1"><span class="Apple-converted-space">      </span>color: var(--gold);</p>
+<p class="p1"><span class="Apple-converted-space">      </span>font-size: 11px;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>font-weight: 700;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>padding: 3px 8px;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>border-radius: 6px;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>z-index: 5;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>}</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">    </span>.diff-box img {</p>
+<p class="p1"><span class="Apple-converted-space">      </span>width: 100%;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>display: block;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>}</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">    </span>/* 找碴修改圖層與點擊熱區 */</p>
+<p class="p1"><span class="Apple-converted-space">    </span>.diff-spot {</p>
+<p class="p1"><span class="Apple-converted-space">      </span>position: absolute;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>transform: translate(-50%, -50%);</p>
+<p class="p1"><span class="Apple-converted-space">      </span>width: 44px;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>height: 44px;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>border-radius: 50%;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>cursor: pointer;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>z-index: 10;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>display: flex;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>align-items: center;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>justify-content: center;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>}</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">    </span>.diff-spot.found {</p>
+<p class="p1"><span class="Apple-converted-space">      </span>border: 3px solid #34d399;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>background: rgba(52, 211, 153, 0.22);</p>
+<p class="p1"><span class="Apple-converted-space">      </span>box-shadow: 0 0 12px #34d399;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>}</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">    </span>/* 偽裝差異小貼紙（僅出現在下方對照圖） */</p>
+<p class="p1"><span class="Apple-converted-space">    </span>.fake-prop {</p>
+<p class="p1"><span class="Apple-converted-space">      </span>position: absolute;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>transform: translate(-50%, -50%);</p>
+<p class="p1"><span class="Apple-converted-space">      </span>font-size: 20px;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>pointer-events: none;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>filter: drop-shadow(0 2px 4px rgba(0,0,0,0.6));</p>
+<p class="p1"><span class="Apple-converted-space">      </span>z-index: 6;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>}</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">    </span>.egg-toast {</p>
+<p class="p1"><span class="Apple-converted-space">      </span>background: linear-gradient(135deg, #be123c, #881337);</p>
+<p class="p1"><span class="Apple-converted-space">      </span>border: 1px solid #fda4af;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>color: #fff;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>padding: 12px 14px;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>border-radius: 12px;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>font-size: 13px;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>margin-bottom: 12px;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>display: none;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>}</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">    </span>/* 關卡三：拼圖 */</p>
+<p class="p1"><span class="Apple-converted-space">    </span>.puzzle-grid {</p>
+<p class="p1"><span class="Apple-converted-space">      </span>display: grid;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>grid-template-columns: repeat(3, 1fr);</p>
+<p class="p1"><span class="Apple-converted-space">      </span>gap: 3px;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>background: #334155;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>padding: 4px;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>border-radius: 14px;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>margin-bottom: 14px;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>aspect-ratio: 3 / 4;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>}</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">    </span>.puzzle-tile {</p>
+<p class="p1"><span class="Apple-converted-space">      </span>width: 100%;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>height: 100%;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>background-repeat: no-repeat;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>border-radius: 6px;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>cursor: pointer;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>transition: transform 0.15s, box-shadow 0.15s;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>position: relative;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>}</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">    </span>.puzzle-tile.selected {</p>
+<p class="p1"><span class="Apple-converted-space">      </span>outline: 3px solid var(--gold);</p>
+<p class="p1"><span class="Apple-converted-space">      </span>transform: scale(0.95);</p>
+<p class="p1"><span class="Apple-converted-space">      </span>z-index: 5;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>}</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">    </span>/* 獎勵兌換券 */</p>
+<p class="p1"><span class="Apple-converted-space">    </span>.voucher-card {</p>
+<p class="p1"><span class="Apple-converted-space">      </span>background: linear-gradient(135deg, #fef3c7 0%, #fde68a 100%);</p>
+<p class="p1"><span class="Apple-converted-space">      </span>color: #1e293b;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>border-radius: 18px;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>padding: 22px 20px;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>border: 2px dashed #b45309;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>box-shadow: 0 12px 30px rgba(251, 191, 36, 0.25);</p>
+<p class="p1"><span class="Apple-converted-space">      </span>text-align: center;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>margin-top: 10px;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>}</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">    </span>.voucher-card h2 {</p>
+<p class="p1"><span class="Apple-converted-space">      </span>color: #92400e;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>font-size: 22px;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>margin-bottom: 8px;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>}</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">    </span>.voucher-code {</p>
+<p class="p1"><span class="Apple-converted-space">      </span>background: #fffbeb;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>border: 1px solid #f59e0b;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>padding: 10px;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>border-radius: 10px;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>font-family: monospace;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>font-weight: 800;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>font-size: 16px;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>color: #b45309;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>margin: 14px 0;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>}</p>
+<p class="p1"><span class="Apple-converted-space">  </span>&lt;/style&gt;</p>
+<p class="p1">&lt;/head&gt;</p>
+<p class="p1">&lt;body&gt;</p>
+<p class="p1"><span class="Apple-converted-space">  </span>&lt;div class="container"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>&lt;!-- 頂部標題列 --&gt;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>&lt;header class="bank-header"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>&lt;div class="bank-logo"&gt;💳 LOVE BANK 兩週年帳單中心&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>&lt;span class="badge-vip"&gt;INFINITE VIP&lt;/span&gt;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>&lt;/header&gt;</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">    </span>&lt;!-- ==================== 首頁：信用卡帳單中心 ==================== --&gt;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>&lt;section id="view-home" class="view active"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>&lt;div class="credit-card"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>&lt;div class="card-top"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">          </span>&lt;div class="chip"&gt;&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">          </span>&lt;div class="card-type"&gt;2ND ANNIVERSARY CARD&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>&lt;div class="card-number"&gt;2024 • 1225 • 2026 • LOVE&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>&lt;div class="card-bottom"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">          </span>&lt;div&gt;持卡人 CARDHOLDER&lt;strong&gt;最帥氣的男朋友&lt;/strong&gt;&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">          </span>&lt;div&gt;入帳期限 DUE DATE&lt;strong&gt;兩週年紀念日&lt;/strong&gt;&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>&lt;/div&gt;</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">      </span>&lt;div class="statement-box"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>&lt;div class="statement-row"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">          </span>&lt;span style="font-size:13px; color:#cbd5e1;"&gt;本期應繳愛意總額&lt;/span&gt;</p>
+<p class="p1"><span class="Apple-converted-space">          </span>&lt;span id="bill-amount" class="amount-due"&gt;NT$ 730 天&lt;/span&gt;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>&lt;p style="font-size:12px; color:#94a3b8;"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">          </span>完成下方三項「心動入帳任務」即可全額折抵帳單，並立即解鎖兩週年專屬實體禮物兌換資格！</p>
+<p class="p1"><span class="Apple-converted-space">        </span>&lt;/p&gt;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>&lt;div class="progress-wrap"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">          </span>&lt;div id="progress-bar" class="progress-bar"&gt;&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>&lt;div class="progress-text"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">          </span>&lt;span&gt;繳費入帳進度&lt;/span&gt;</p>
+<p class="p1"><span class="Apple-converted-space">          </span>&lt;span id="progress-label"&gt;0 / 3 項已完成&lt;/span&gt;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>&lt;/div&gt;</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">      </span>&lt;div class="section-title"&gt;📋 待入帳任務明細（點擊開始）&lt;/div&gt;</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">      </span>&lt;div id="card-task-1" class="task-card" onclick="openView('view-game1')"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>&lt;div class="task-info"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">          </span>&lt;h3&gt;🃏 任務一：回憶對對樂&lt;/h3&gt;</p>
+<p class="p1"><span class="Apple-converted-space">          </span>&lt;p&gt;翻開 12 張回憶卡片，配對我們的甜蜜瞬間&lt;/p&gt;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>&lt;span id="status-1" class="task-status"&gt;待繳費&lt;/span&gt;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>&lt;/div&gt;</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">      </span>&lt;div id="card-task-2" class="task-card" onclick="openView('view-game2')"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>&lt;div class="task-info"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">          </span>&lt;h3&gt;🔍 任務二：女友來找碴&lt;/h3&gt;</p>
+<p class="p1"><span class="Apple-converted-space">          </span>&lt;p&gt;找出兩張合照中 4 個隱藏的可愛小彩蛋&lt;/p&gt;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>&lt;span id="status-2" class="task-status"&gt;待繳費&lt;/span&gt;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>&lt;/div&gt;</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">      </span>&lt;div id="card-task-3" class="task-card" onclick="openView('view-game3')"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>&lt;div class="task-info"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">          </span>&lt;h3&gt;🧩 任務三：照片拼拼圖&lt;/h3&gt;</p>
+<p class="p1"><span class="Apple-converted-space">          </span>&lt;p&gt;點擊交換拼圖碎片，拼出最可愛的女友&lt;/p&gt;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>&lt;span id="status-3" class="task-status"&gt;待繳費&lt;/span&gt;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>&lt;/div&gt;</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">      </span>&lt;div id="reward-entry" style="display:none; margin-top:18px;"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>&lt;button class="btn btn-gold" onclick="openView('view-reward')"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">          </span>🎁 帳單已全額繳清！點擊領取兩週年禮物</p>
+<p class="p1"><span class="Apple-converted-space">        </span>&lt;/button&gt;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>&lt;/section&gt;</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">    </span>&lt;!-- ==================== 任務一：回憶對對樂 ==================== --&gt;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>&lt;section id="view-game1" class="view"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>&lt;div class="game-header"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>&lt;h2&gt;🃏 任務一：回憶對對樂&lt;/h2&gt;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>&lt;button class="btn btn-ghost" onclick="openView('view-home')"&gt;返回帳單&lt;/button&gt;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>&lt;div class="hint-banner"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>每次翻開兩張卡片，將相同的甜蜜合照配對成功即可消除！目前已配對：&lt;strong id="match-count"&gt;0&lt;/strong&gt; / 6 組</p>
+<p class="p1"><span class="Apple-converted-space">      </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>&lt;div id="memory-grid" class="memory-grid"&gt;&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>&lt;/section&gt;</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">    </span>&lt;!-- ==================== 任務二：女友來找碴 ==================== --&gt;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>&lt;section id="view-game2" class="view"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>&lt;div class="game-header"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>&lt;h2&gt;🔍 任務二：女友來找碴&lt;/h2&gt;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>&lt;button class="btn btn-ghost" onclick="openView('view-home')"&gt;返回帳單&lt;/button&gt;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>&lt;div class="hint-banner"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>比對上下兩張維多利亞港合照，直接點擊&lt;strong&gt;下方照片&lt;/strong&gt;中不一樣的 4 個地方！已找到：&lt;strong id="diff-count"&gt;0&lt;/strong&gt; / 4 處</p>
+<p class="p1"><span class="Apple-converted-space">      </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>&lt;div id="egg-toast" class="egg-toast"&gt;&lt;/div&gt;</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">      </span>&lt;div class="diff-container"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>&lt;!-- 上方原圖 --&gt;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>&lt;div class="diff-box"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">          </span>&lt;span class="diff-label"&gt;原版合照&lt;/span&gt;</p>
+<p class="p1"><span class="Apple-converted-space">          </span>&lt;img id="diff-img-top" alt="原版合照" /&gt;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>&lt;/div&gt;</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">        </span>&lt;!-- 下方改造圖（含 4 個可愛貼紙差異與熱區） --&gt;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>&lt;div class="diff-box" id="diff-bottom-box"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">          </span>&lt;span class="diff-label"&gt;找碴版（點這裡找不同）&lt;/span&gt;</p>
+<p class="p1"><span class="Apple-converted-space">          </span>&lt;img id="diff-img-bottom" alt="找碴版合照" /&gt;</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">          </span>&lt;!-- 差異 1：女友頭頂比心處多了一頂小皇冠 --&gt;</p>
+<p class="p1"><span class="Apple-converted-space">          </span>&lt;div class="fake-prop" style="left: 38%; top: 27%;"&gt;👑&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">          </span>&lt;div class="diff-spot" data-idx="0" style="left: 38%; top: 27%;" onclick="foundDiff(0, '彩蛋 1：被你發現小皇冠了！兩週年依然是你心裡的小公主 👑')"&gt;&lt;/div&gt;</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">          </span>&lt;!-- 差異 2：維港海面多了一艘小帆船 --&gt;</p>
+<p class="p1"><span class="Apple-converted-space">          </span>&lt;div class="fake-prop" style="left: 78%; top: 32%;"&gt;⛵&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">          </span>&lt;div class="diff-spot" data-idx="1" style="left: 78%; top: 32%;" onclick="foundDiff(1, '彩蛋 2：維港海面偷偷開過一艘愛的小船，下一站還要一起去更多地方！⛵')"&gt;&lt;/div&gt;</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">          </span>&lt;!-- 差異 3：男友白色上衣胸口多了一顆愛心 --&gt;</p>
+<p class="p1"><span class="Apple-converted-space">          </span>&lt;div class="fake-prop" style="left: 60%; top: 68%;"&gt;💖&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">          </span>&lt;div class="diff-spot" data-idx="2" style="left: 60%; top: 68%;" onclick="foundDiff(2, '彩蛋 3：你的心臟位置被愛心佔滿啦，謝謝你這兩年滿滿的照顧 💖')"&gt;&lt;/div&gt;</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">          </span>&lt;!-- 差異 4：左下角包包多了一杯珍珠奶茶 --&gt;</p>
+<p class="p1"><span class="Apple-converted-space">          </span>&lt;div class="fake-prop" style="left: 14%; top: 82%;"&gt;🧋&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">          </span>&lt;div class="diff-spot" data-idx="3" style="left: 14%; top: 82%;" onclick="foundDiff(3, '彩蛋 4：偷藏了一杯珍奶！通關後帶我去喝飲料吧 🧋')"&gt;&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>&lt;/section&gt;</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">    </span>&lt;!-- ==================== 任務三：照片拼拼圖 ==================== --&gt;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>&lt;section id="view-game3" class="view"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>&lt;div class="game-header"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>&lt;h2&gt;🧩 任務三：照片拼拼圖&lt;/h2&gt;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>&lt;button class="btn btn-ghost" onclick="openView('view-home')"&gt;返回帳單&lt;/button&gt;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>&lt;div class="hint-banner"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>先點選一塊拼圖，再點選另一塊即可交換位置，把最可愛的女友拼回來吧！</p>
+<p class="p1"><span class="Apple-converted-space">      </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>&lt;div id="puzzle-grid" class="puzzle-grid"&gt;&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>&lt;div style="display:flex; gap:10px;"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>&lt;button class="btn btn-ghost" style="flex:1;" onclick="togglePeek()"&gt;👀 偷看原圖提示&lt;/button&gt;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>&lt;button class="btn btn-ghost" style="flex:1;" onclick="initPuzzle()"&gt;🔀 重新打亂&lt;/button&gt;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>&lt;div id="peek-box" style="display:none; margin-top:12px; border-radius:12px; overflow:hidden; border:2px solid var(--gold);"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>&lt;img id="peek-img" style="width:100%; display:block;" alt="原圖提示" /&gt;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>&lt;/section&gt;</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">    </span>&lt;!-- ==================== 最終通關：禮物兌換券 ==================== --&gt;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>&lt;section id="view-reward" class="view"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>&lt;div class="game-header"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>&lt;h2&gt;🎉 帳單全額繳清憑證&lt;/h2&gt;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>&lt;button class="btn btn-ghost" onclick="openView('view-home')"&gt;返回帳單&lt;/button&gt;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>&lt;div class="voucher-card"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>&lt;div style="font-size:40px; margin-bottom:6px;"&gt;💝&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>&lt;h2&gt;兩週年專屬禮物兌換券&lt;/h2&gt;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>&lt;p style="font-size:14px; color:#78350f; margin-bottom:10px;"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">          </span>恭喜完成所有愛意入帳任務！&lt;br /&gt;</p>
+<p class="p1"><span class="Apple-converted-space">          </span>憑此畫面可向可愛女友兌換&lt;strong&gt;兩週年神秘大禮&lt;/strong&gt;乙份。</p>
+<p class="p1"><span class="Apple-converted-space">        </span>&lt;/p&gt;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>&lt;div class="voucher-code"&gt;核銷代碼：LOVE-2YEARS-2026&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>&lt;p style="font-size:13px; color:#451a03; text-align:left; line-height:1.7; background:rgba(255,255,255,0.6); padding:14px; border-radius:12px;"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">          </span>給親愛的老大：&lt;br /&gt;</p>
+<p class="p1"><span class="Apple-converted-space">          </span>謝謝你這兩年來的陪伴，一起去了好多地方、吃了好多美食，也一起布置了屬於我們的小窩。未來的每一年，也請多多指教，繼續累積幸福回憶❤️</p>
+<p class="p1"><span class="Apple-converted-space">        </span>&lt;/p&gt;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>&lt;/section&gt;</p>
+<p class="p1"><span class="Apple-converted-space">  </span>&lt;/div&gt;</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">  </span>&lt;script&gt;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>// 自動容錯載入圖片（同時支援 .jpg / .jpeg / 大寫副檔名）</p>
+<p class="p1"><span class="Apple-converted-space">    </span>function setSmartImage(imgEl, baseName, preferredExts) {</p>
+<p class="p1"><span class="Apple-converted-space">      </span>let idx = 0;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>function tryNext() {</p>
+<p class="p1"><span class="Apple-converted-space">        </span>if (idx &gt;= preferredExts.length) return;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>imgEl.src = baseName + "." + preferredExts[idx++];</p>
+<p class="p1"><span class="Apple-converted-space">      </span>}</p>
+<p class="p1"><span class="Apple-converted-space">      </span>imgEl.onerror = tryNext;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>tryNext();</p>
+<p class="p1"><span class="Apple-converted-space">    </span>}</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">    </span>// 解析可用的圖片 URL（供拼圖背景使用）</p>
+<p class="p1"><span class="Apple-converted-space">    </span>function resolveImageUrl(baseName, exts, callback) {</p>
+<p class="p1"><span class="Apple-converted-space">      </span>let idx = 0;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>const tester = new Image();</p>
+<p class="p1"><span class="Apple-converted-space">      </span>function tryNext() {</p>
+<p class="p1"><span class="Apple-converted-space">        </span>if (idx &gt;= exts.length) {</p>
+<p class="p1"><span class="Apple-converted-space">          </span>callback(baseName + "." + exts[0]);</p>
+<p class="p1"><span class="Apple-converted-space">          </span>return;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>}</p>
+<p class="p1"><span class="Apple-converted-space">        </span>const candidate = baseName + "." + exts[idx++];</p>
+<p class="p1"><span class="Apple-converted-space">        </span>tester.onload = () =&gt; callback(candidate);</p>
+<p class="p1"><span class="Apple-converted-space">        </span>tester.onerror = tryNext;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>tester.src = candidate;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>}</p>
+<p class="p1"><span class="Apple-converted-space">      </span>tryNext();</p>
+<p class="p1"><span class="Apple-converted-space">    </span>}</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">    </span>// 任務完成狀態</p>
+<p class="p1"><span class="Apple-converted-space">    </span>const state = {</p>
+<p class="p1"><span class="Apple-converted-space">      </span>t1: false,</p>
+<p class="p1"><span class="Apple-converted-space">      </span>t2: false,</p>
+<p class="p1"><span class="Apple-converted-space">      </span>t3: false</p>
+<p class="p1"><span class="Apple-converted-space">    </span>};</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">    </span>function openView(viewId) {</p>
+<p class="p1"><span class="Apple-converted-space">      </span>document.querySelectorAll(".view").forEach(v =&gt; v.classList.remove("active"));</p>
+<p class="p1"><span class="Apple-converted-space">      </span>document.getElementById(viewId).classList.add("active");</p>
+<p class="p1"><span class="Apple-converted-space">      </span>window.scrollTo(0, 0);</p>
+<p class="p1"><span class="Apple-converted-space">    </span>}</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">    </span>function markTaskDone(taskNum) {</p>
+<p class="p1"><span class="Apple-converted-space">      </span>state["t" + taskNum] = true;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>const card = document.getElementById("card-task-" + taskNum);</p>
+<p class="p1"><span class="Apple-converted-space">      </span>const badge = document.getElementById("status-" + taskNum);</p>
+<p class="p1"><span class="Apple-converted-space">      </span>card.classList.add("done");</p>
+<p class="p1"><span class="Apple-converted-space">      </span>badge.textContent = "已入帳 ✓";</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">      </span>const doneCount = [state.t1, state.t2, state.t3].filter(Boolean).length;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>document.getElementById("progress-bar").style.width = (doneCount / 3 * 100) + "%";</p>
+<p class="p1"><span class="Apple-converted-space">      </span>document.getElementById("progress-label").textContent = doneCount + " / 3 項已完成";</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">      </span>if (doneCount === 3) {</p>
+<p class="p1"><span class="Apple-converted-space">        </span>const amt = document.getElementById("bill-amount");</p>
+<p class="p1"><span class="Apple-converted-space">        </span>amt.textContent = "NT$ 0 (已繳清)";</p>
+<p class="p1"><span class="Apple-converted-space">        </span>amt.classList.add("paid");</p>
+<p class="p1"><span class="Apple-converted-space">        </span>document.getElementById("reward-entry").style.display = "block";</p>
+<p class="p1"><span class="Apple-converted-space">      </span>}</p>
+<p class="p1"><span class="Apple-converted-space">    </span>}</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">    </span>/* ================= 任務一：回憶對對樂 ================= */</p>
+<p class="p1"><span class="Apple-converted-space">    </span>const pairSources = [</p>
+<p class="p1"><span class="Apple-converted-space">      </span>{ base: "IMG_01", exts: ["jpeg", "jpg", "JPEG", "JPG"] },</p>
+<p class="p1"><span class="Apple-converted-space">      </span>{ base: "IMG_02", exts: ["jpg", "jpeg", "JPG", "JPEG"] },</p>
+<p class="p1"><span class="Apple-converted-space">      </span>{ base: "IMG_03", exts: ["jpeg", "jpg", "JPEG", "JPG"] },</p>
+<p class="p1"><span class="Apple-converted-space">      </span>{ base: "IMG_04", exts: ["jpg", "jpeg", "JPG", "JPEG"] },</p>
+<p class="p1"><span class="Apple-converted-space">      </span>{ base: "IMG_05", exts: ["jpg", "jpeg", "JPG", "JPEG"] },</p>
+<p class="p1"><span class="Apple-converted-space">      </span>{ base: "IMG_06", exts: ["jpeg", "jpg", "JPEG", "JPG"] }</p>
+<p class="p1"><span class="Apple-converted-space">    </span>];</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">    </span>let flippedCards = [];</p>
+<p class="p1"><span class="Apple-converted-space">    </span>let matchedPairs = 0;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>let lockBoard = false;</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">    </span>function initMemoryGame() {</p>
+<p class="p1"><span class="Apple-converted-space">      </span>const grid = document.getElementById("memory-grid");</p>
+<p class="p1"><span class="Apple-converted-space">      </span>grid.innerHTML = "";</p>
+<p class="p1"><span class="Apple-converted-space">      </span>const deck = [...pairSources, ...pairSources]</p>
+<p class="p1"><span class="Apple-converted-space">        </span>.map((item, idx) =&gt; ({ ...item, uid: idx, sort: Math.random() }))</p>
+<p class="p1"><span class="Apple-converted-space">        </span>.sort((a, b) =&gt; a.sort - b.sort);</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">      </span>deck.forEach(item =&gt; {</p>
+<p class="p1"><span class="Apple-converted-space">        </span>const card = document.createElement("div");</p>
+<p class="p1"><span class="Apple-converted-space">        </span>card.className = "mem-card";</p>
+<p class="p1"><span class="Apple-converted-space">        </span>card.dataset.base = item.base;</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">        </span>const inner = document.createElement("div");</p>
+<p class="p1"><span class="Apple-converted-space">        </span>inner.className = "mem-inner";</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">        </span>const front = document.createElement("div");</p>
+<p class="p1"><span class="Apple-converted-space">        </span>front.className = "mem-face mem-front";</p>
+<p class="p1"><span class="Apple-converted-space">        </span>front.innerHTML = "♥&lt;span&gt;LOVE&lt;/span&gt;";</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">        </span>const back = document.createElement("div");</p>
+<p class="p1"><span class="Apple-converted-space">        </span>back.className = "mem-face mem-back";</p>
+<p class="p1"><span class="Apple-converted-space">        </span>const img = document.createElement("img");</p>
+<p class="p1"><span class="Apple-converted-space">        </span>img.alt = item.base;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>setSmartImage(img, item.base, item.exts);</p>
+<p class="p1"><span class="Apple-converted-space">        </span>back.appendChild(img);</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">        </span>inner.appendChild(front);</p>
+<p class="p1"><span class="Apple-converted-space">        </span>inner.appendChild(back);</p>
+<p class="p1"><span class="Apple-converted-space">        </span>card.appendChild(inner);</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">        </span>card.addEventListener("click", () =&gt; handleFlip(card));</p>
+<p class="p1"><span class="Apple-converted-space">        </span>grid.appendChild(card);</p>
+<p class="p1"><span class="Apple-converted-space">      </span>});</p>
+<p class="p1"><span class="Apple-converted-space">    </span>}</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">    </span>function handleFlip(card) {</p>
+<p class="p1"><span class="Apple-converted-space">      </span>if (lockBoard || card.classList.contains("flipped") || card.classList.contains("matched")) return;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>card.classList.add("flipped");</p>
+<p class="p1"><span class="Apple-converted-space">      </span>flippedCards.push(card);</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">      </span>if (flippedCards.length === 2) {</p>
+<p class="p1"><span class="Apple-converted-space">        </span>lockBoard = true;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>const [c1, c2] = flippedCards;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>if (c1.dataset.base === c2.dataset.base) {</p>
+<p class="p1"><span class="Apple-converted-space">          </span>c1.classList.add("matched");</p>
+<p class="p1"><span class="Apple-converted-space">          </span>c2.classList.add("matched");</p>
+<p class="p1"><span class="Apple-converted-space">          </span>flippedCards = [];</p>
+<p class="p1"><span class="Apple-converted-space">          </span>lockBoard = false;</p>
+<p class="p1"><span class="Apple-converted-space">          </span>matchedPairs++;</p>
+<p class="p1"><span class="Apple-converted-space">          </span>document.getElementById("match-count").textContent = matchedPairs;</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">          </span>if (matchedPairs === 6) {</p>
+<p class="p1"><span class="Apple-converted-space">            </span>setTimeout(() =&gt; {</p>
+<p class="p1"><span class="Apple-converted-space">              </span>alert("🎉 太棒了！6 組回憶照片全部配對成功，任務一已入帳！");</p>
+<p class="p1"><span class="Apple-converted-space">              </span>markTaskDone(1);</p>
+<p class="p1"><span class="Apple-converted-space">              </span>openView("view-home");</p>
+<p class="p1"><span class="Apple-converted-space">            </span>}, 450);</p>
+<p class="p1"><span class="Apple-converted-space">          </span>}</p>
+<p class="p1"><span class="Apple-converted-space">        </span>} else {</p>
+<p class="p1"><span class="Apple-converted-space">          </span>setTimeout(() =&gt; {</p>
+<p class="p1"><span class="Apple-converted-space">            </span>c1.classList.remove("flipped");</p>
+<p class="p1"><span class="Apple-converted-space">            </span>c2.classList.remove("flipped");</p>
+<p class="p1"><span class="Apple-converted-space">            </span>flippedCards = [];</p>
+<p class="p1"><span class="Apple-converted-space">            </span>lockBoard = false;</p>
+<p class="p1"><span class="Apple-converted-space">          </span>}, 750);</p>
+<p class="p1"><span class="Apple-converted-space">        </span>}</p>
+<p class="p1"><span class="Apple-converted-space">      </span>}</p>
+<p class="p1"><span class="Apple-converted-space">    </span>}</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">    </span>/* ================= 任務二：女友來找碴 ================= */</p>
+<p class="p1"><span class="Apple-converted-space">    </span>const foundSet = new Set();</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">    </span>function initDiffGame() {</p>
+<p class="p1"><span class="Apple-converted-space">      </span>const exts = ["jpg", "jpeg", "JPG", "JPEG"];</p>
+<p class="p1"><span class="Apple-converted-space">      </span>setSmartImage(document.getElementById("diff-img-top"), "IMG_m2", exts);</p>
+<p class="p1"><span class="Apple-converted-space">      </span>setSmartImage(document.getElementById("diff-img-bottom"), "IMG_m2", exts);</p>
+<p class="p1"><span class="Apple-converted-space">    </span>}</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">    </span>function foundDiff(index, message) {</p>
+<p class="p1"><span class="Apple-converted-space">      </span>const toast = document.getElementById("egg-toast");</p>
+<p class="p1"><span class="Apple-converted-space">      </span>toast.style.display = "block";</p>
+<p class="p1"><span class="Apple-converted-space">      </span>toast.textContent = message;</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">      </span>if (!foundSet.has(index)) {</p>
+<p class="p1"><span class="Apple-converted-space">        </span>foundSet.add(index);</p>
+<p class="p1"><span class="Apple-converted-space">        </span>const spot = document.querySelector(`.diff-spot[data-idx="${index}"]`);</p>
+<p class="p1"><span class="Apple-converted-space">        </span>if (spot) spot.classList.add("found");</p>
+<p class="p1"><span class="Apple-converted-space">        </span>document.getElementById("diff-count").textContent = foundSet.size;</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">        </span>if (foundSet.size === 4) {</p>
+<p class="p1"><span class="Apple-converted-space">          </span>setTimeout(() =&gt; {</p>
+<p class="p1"><span class="Apple-converted-space">            </span>alert("🔍 眼力滿分！4 個隱藏彩蛋全部找到，任務二已入帳！");</p>
+<p class="p1"><span class="Apple-converted-space">            </span>markTaskDone(2);</p>
+<p class="p1"><span class="Apple-converted-space">            </span>openView("view-home");</p>
+<p class="p1"><span class="Apple-converted-space">          </span>}, 700);</p>
+<p class="p1"><span class="Apple-converted-space">        </span>}</p>
+<p class="p1"><span class="Apple-converted-space">      </span>}</p>
+<p class="p1"><span class="Apple-converted-space">    </span>}</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">    </span>/* ================= 任務三：照片拼拼圖 ================= */</p>
+<p class="p1"><span class="Apple-converted-space">    </span>let puzzleUrl = "IMG_m3.jpg";</p>
+<p class="p1"><span class="Apple-converted-space">    </span>let tileOrder = [0, 1, 2, 3, 4, 5, 6, 7, 8];</p>
+<p class="p1"><span class="Apple-converted-space">    </span>let selectedSlot = null;</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">    </span>function initPuzzle() {</p>
+<p class="p1"><span class="Apple-converted-space">      </span>selectedSlot = null;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>// 洗牌且確保不是已經完成的順序</p>
+<p class="p1"><span class="Apple-converted-space">      </span>do {</p>
+<p class="p1"><span class="Apple-converted-space">        </span>tileOrder = [0, 1, 2, 3, 4, 5, 6, 7, 8].sort(() =&gt; Math.random() - 0.5);</p>
+<p class="p1"><span class="Apple-converted-space">      </span>} while (tileOrder.every((val, idx) =&gt; val === idx));</p>
+<p class="p1"><span class="Apple-converted-space">      </span>renderPuzzle();</p>
+<p class="p1"><span class="Apple-converted-space">    </span>}</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">    </span>function renderPuzzle() {</p>
+<p class="p1"><span class="Apple-converted-space">      </span>const grid = document.getElementById("puzzle-grid");</p>
+<p class="p1"><span class="Apple-converted-space">      </span>grid.innerHTML = "";</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">      </span>tileOrder.forEach((pieceIdx, slotIdx) =&gt; {</p>
+<p class="p1"><span class="Apple-converted-space">        </span>const tile = document.createElement("div");</p>
+<p class="p1"><span class="Apple-converted-space">        </span>tile.className = "puzzle-tile" + (selectedSlot === slotIdx ? " selected" : "");</p>
+<p class="p1"><span class="Apple-converted-space">        </span>const col = pieceIdx % 3;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>const row = Math.floor(pieceIdx / 3);</p>
+<p class="p1"><span class="Apple-converted-space">        </span>tile.style.backgroundImage = `url('${puzzleUrl}')`;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>tile.style.backgroundSize = "300% 300%";</p>
+<p class="p1"><span class="Apple-converted-space">        </span>tile.style.backgroundPosition = `${col * 50}% ${row * 50}%`;</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">        </span>tile.addEventListener("click", () =&gt; handleTileClick(slotIdx));</p>
+<p class="p1"><span class="Apple-converted-space">        </span>grid.appendChild(tile);</p>
+<p class="p1"><span class="Apple-converted-space">      </span>});</p>
+<p class="p1"><span class="Apple-converted-space">    </span>}</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">    </span>function handleTileClick(slotIdx) {</p>
+<p class="p1"><span class="Apple-converted-space">      </span>if (selectedSlot === null) {</p>
+<p class="p1"><span class="Apple-converted-space">        </span>selectedSlot = slotIdx;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>renderPuzzle();</p>
+<p class="p1"><span class="Apple-converted-space">        </span>return;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>}</p>
+<p class="p1"><span class="Apple-converted-space">      </span>if (selectedSlot === slotIdx) {</p>
+<p class="p1"><span class="Apple-converted-space">        </span>selectedSlot = null;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>renderPuzzle();</p>
+<p class="p1"><span class="Apple-converted-space">        </span>return;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>}</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">      </span>// 交換兩塊拼圖</p>
+<p class="p1"><span class="Apple-converted-space">      </span>const temp = tileOrder[selectedSlot];</p>
+<p class="p1"><span class="Apple-converted-space">      </span>tileOrder[selectedSlot] = tileOrder[slotIdx];</p>
+<p class="p1"><span class="Apple-converted-space">      </span>tileOrder[slotIdx] = temp;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>selectedSlot = null;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>renderPuzzle();</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">      </span>// 檢查是否拼圖完成</p>
+<p class="p1"><span class="Apple-converted-space">      </span>if (tileOrder.every((val, idx) =&gt; val === idx)) {</p>
+<p class="p1"><span class="Apple-converted-space">        </span>setTimeout(() =&gt; {</p>
+<p class="p1"><span class="Apple-converted-space">          </span>alert("🧩 拼圖完成！最可愛的女友出現啦，任務三已入帳！");</p>
+<p class="p1"><span class="Apple-converted-space">          </span>markTaskDone(3);</p>
+<p class="p1"><span class="Apple-converted-space">          </span>openView("view-home");</p>
+<p class="p1"><span class="Apple-converted-space">        </span>}, 350);</p>
+<p class="p1"><span class="Apple-converted-space">      </span>}</p>
+<p class="p1"><span class="Apple-converted-space">    </span>}</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">    </span>function togglePeek() {</p>
+<p class="p1"><span class="Apple-converted-space">      </span>const box = document.getElementById("peek-box");</p>
+<p class="p1"><span class="Apple-converted-space">      </span>box.style.display = box.style.display === "none" ? "block" : "none";</p>
+<p class="p1"><span class="Apple-converted-space">    </span>}</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">    </span>// 初始化所有遊戲</p>
+<p class="p1"><span class="Apple-converted-space">    </span>window.addEventListener("DOMContentLoaded", () =&gt; {</p>
+<p class="p1"><span class="Apple-converted-space">      </span>initMemoryGame();</p>
+<p class="p1"><span class="Apple-converted-space">      </span>initDiffGame();</p>
+<p class="p1"><span class="Apple-converted-space">      </span>resolveImageUrl("IMG_m3", ["jpg", "jpeg", "JPG", "JPEG"], (url) =&gt; {</p>
+<p class="p1"><span class="Apple-converted-space">        </span>puzzleUrl = url;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>document.getElementById("peek-img").src = url;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>initPuzzle();</p>
+<p class="p1"><span class="Apple-converted-space">      </span>});</p>
+<p class="p1"><span class="Apple-converted-space">    </span>});</p>
+<p class="p1"><span class="Apple-converted-space">  </span>&lt;/script&gt;</p>
+<p class="p1">&lt;/body&gt;</p>
+<p class="p1">&lt;/html&gt;</p>
+</body>
+</html>
