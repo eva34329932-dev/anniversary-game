@@ -1,0 +1,995 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+  <title>兩週年專屬帳單繳費任務中心</title>
+  <!-- 載入 Tailwind CSS -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <!-- 載入 Google Fonts: Noto Sans TC & Playfair Display & JetBrains Mono -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@500;700&family=Noto+Sans+TC:wght@400;500;700;900&family=Playfair+Display:ital,wght@0,600;0,700;1,600&display=swap" rel="stylesheet">
+  <!-- 載入 Tone.js 用於無外部檔案的清脆音效回饋 -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/tone/14.8.49/Tone.js"></script>
+
+  <style>
+    :root {
+      --gold-primary: #d4af37;
+      --gold-light: #f3e5ab;
+      --card-dark: #18181b;
+      --paper-bg: #faf8f5;
+    }
+
+    body {
+      font-family: 'Noto Sans TC', sans-serif;
+      background-color: #f3efe9;
+      background-image: radial-gradient(#dcd4c8 1px, transparent 1px);
+      background-size: 18px 18px;
+      color: #1f2937;
+      -webkit-tap-highlight-color: transparent;
+      overflow-x: hidden;
+    }
+
+    .font-mono-num {
+      font-family: 'JetBrains Mono', monospace;
+    }
+
+    .font-serif-title {
+      font-family: 'Playfair Display', 'Noto Sans TC', serif;
+    }
+
+    /* 信用卡黑金漸層質感 */
+    .vip-card-bg {
+      background: linear-gradient(135deg, #1f1f23 0%, #111113 55%, #2a2419 100%);
+      box-shadow: 0 14px 30px -8px rgba(0, 0, 0, 0.35);
+    }
+
+    /* 帳單鋸齒邊緣效果 */
+    .receipt-edge {
+      position: relative;
+    }
+    .receipt-edge::after {
+      content: "";
+      position: absolute;
+      left: 0;
+      right: 0;
+      bottom: -8px;
+      height: 8px;
+      background: linear-gradient(135deg, #ffffff 50%, transparent 50%),
+                  linear-gradient(225deg, #ffffff 50%, transparent 50%);
+      background-position: 0 0;
+      background-size: 16px 8px;
+      background-repeat: repeat-x;
+    }
+
+    /* 印章動畫與質感 */
+    .stamp-badge {
+      border: 2.5px solid #dc2626;
+      color: #dc2626;
+      font-weight: 900;
+      letter-spacing: 0.08em;
+      transform: rotate(-10deg);
+      box-shadow: inset 0 0 0 1px rgba(220, 38, 38, 0.3);
+      animation: stampDrop 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
+    }
+
+    @keyframes stampDrop {
+      0% { transform: scale(2.2) rotate(-20deg); opacity: 0; }
+      100% { transform: scale(1) rotate(-10deg); opacity: 1; }
+    }
+
+    /* 翻牌 3D 動畫 */
+    .perspective-1000 {
+      perspective: 1000px;
+    }
+    .flip-card-inner {
+      position: relative;
+      width: 100%;
+      height: 100%;
+      transition: transform 0.55s cubic-bezier(0.4, 0.0, 0.2, 1);
+      transform-style: preserve-3d;
+    }
+    .flip-card.flipped .flip-card-inner,
+    .flip-card.matched .flip-card-inner {
+      transform: rotateY(180deg);
+    }
+    .flip-card-front,
+    .flip-card-back {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      -webkit-backface-visibility: hidden;
+      backface-visibility: hidden;
+      border-radius: 0.75rem;
+      overflow: hidden;
+    }
+    .flip-card-back {
+      transform: rotateY(180deg);
+    }
+
+    /* 找碴紅圈動畫 */
+    @keyframes ringPop {
+      0% { transform: translate(-50%, -50%) scale(0.3); opacity: 0; }
+      70% { transform: translate(-50%, -50%) scale(1.15); opacity: 1; }
+      100% { transform: translate(-50%, -50%) scale(1); opacity: 1; }
+    }
+    .diff-marker {
+      position: absolute;
+      border: 3px solid #f43f5e;
+      border-radius: 9999px;
+      box-shadow: 0 0 0 3px rgba(255, 255, 255, 0.85), 0 4px 12px rgba(244, 63, 94, 0.5);
+      pointer-events: none;
+      animation: ringPop 0.35s ease-out forwards;
+    }
+
+    /* 拼圖選中光暈 */
+    .puzzle-selected {
+      outline: 3px solid #f59e0b;
+      outline-offset: -3px;
+      transform: scale(0.95);
+      box-shadow: 0 0 15px rgba(245, 158, 11, 0.7);
+      z-index: 10;
+    }
+
+    /* 彩帶飄落 */
+    @keyframes confettiFall {
+      0% { transform: translateY(-10vh) rotate(0deg); opacity: 1; }
+      100% { transform: translateY(105vh) rotate(720deg); opacity: 0; }
+    }
+    .confetti-piece {
+      position: fixed;
+      top: 0;
+      width: 10px;
+      height: 14px;
+      z-index: 999;
+      pointer-events: none;
+      animation: confettiFall linear forwards;
+    }
+  </style>
+</head>
+<body class="min-h-screen flex flex-col items-center py-4 px-3 sm:py-8">
+
+  <!-- 主容器：行動裝置最佳寬度 max-w-md -->
+  <div class="w-full max-w-md mx-auto space-y-5 pb-12">
+
+    <!-- 頂部銀行機構標題列 -->
+    <header class="flex items-center justify-between px-2">
+      <div class="flex items-center gap-2.5">
+        <div class="w-9 h-9 rounded-xl bg-zinc-900 text-amber-300 flex items-center justify-center shadow-md border border-amber-400/30">
+          <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M3 10h18M7 15h1m4 0h1m-7 4h12a3 3 0 003-3V8a3 3 0 00-3-3H6a3 3 0 00-3 3v8a3 3 0 003 3z"/>
+          </svg>
+        </div>
+        <div>
+          <p class="text-[11px] font-bold tracking-widest text-amber-800 uppercase">LOVE BANK · 專屬客服中心</p>
+          <h1 class="text-base font-black text-zinc-900 tracking-tight">兩週年專屬帳單繳費任務中心</h1>
+        </div>
+      </div>
+      <!-- 音效開關按鈕 -->
+      <button id="soundToggleBtn" onclick="toggleSound()" class="p-2.5 rounded-full bg-white/90 border border-stone-200 text-stone-600 shadow-sm active:scale-95 transition" title="切換音效">
+        <svg id="soundIconOn" class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M15.536 8.464a5 5 0 010 7.072m2.828-9.9a9 9 0 010 12.728M5.586 15H4a1 1 0 01-1-1v-4a1 1 0 011-1h1.586l4.707-4.707C10.923 3.663 12 4.109 12 5v14c0 .891-1.077 1.337-1.707.707L5.586 15z"/>
+        </svg>
+        <svg id="soundIconOff" class="w-4 h-4 hidden text-rose-500" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M5.586 15H4a1 1 0 01-1-1v-4a1 1 0 011-1h1.586l4.707-4.707C10.923 3.663 12 4.109 12 5v14c0 .891-1.077 1.337-1.707.707L5.586 15zM17 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2"/>
+        </svg>
+      </button>
+    </header>
+
+    <!-- ==================== 視圖 0：帳單繳費入口首頁 ==================== -->
+    <main id="homeView" class="space-y-5 transition-all duration-300">
+
+      <!-- 專屬信用卡視覺卡片 -->
+      <section class="vip-card-bg rounded-2xl p-5 text-white relative overflow-hidden border border-amber-400/25">
+        <!-- 背景光暈裝飾 -->
+        <div class="absolute -right-10 -top-10 w-40 h-40 rounded-full bg-amber-400/10 blur-2xl pointer-events-none"></div>
+        <div class="absolute -left-10 -bottom-10 w-36 h-36 rounded-full bg-rose-500/10 blur-2xl pointer-events-none"></div>
+
+        <div class="flex justify-between items-start mb-6">
+          <div>
+            <span class="inline-block px-2.5 py-0.5 rounded-full text-[10px] font-bold tracking-widest bg-amber-400/20 text-amber-300 border border-amber-400/30 mb-1.5">
+              2ND ANNIVERSARY EDITION
+            </span>
+            <h2 class="text-lg font-bold tracking-wide text-amber-100">兩週年無限寵愛卡</h2>
+          </div>
+          <!-- 感應符號與晶片 -->
+          <div class="flex items-center gap-2">
+            <div class="w-9 h-7 rounded-md bg-gradient-to-br from-amber-200 via-amber-400 to-amber-600 p-1 flex flex-col justify-between opacity-90">
+              <div class="w-full h-[1px] bg-amber-900/40"></div>
+              <div class="w-full h-[1px] bg-amber-900/40"></div>
+              <div class="w-full h-[1px] bg-amber-900/40"></div>
+            </div>
+          </div>
+        </div>
+
+        <div class="font-mono-num text-sm tracking-[0.22em] text-zinc-300 mb-5">
+          5200 • 1314 • 2024 • 2026
+        </div>
+
+        <div class="flex justify-between items-end text-xs">
+          <div>
+            <p class="text-[10px] text-zinc-400 uppercase tracking-wider">持卡貴賓 CARDHOLDER</p>
+            <p class="font-bold text-amber-200 text-sm mt-0.5">最帥氣的專屬男朋友</p>
+          </div>
+          <div class="text-right">
+            <p class="text-[10px] text-zinc-400 uppercase tracking-wider">帳單週期 CYCLE</p>
+            <p class="font-mono-num text-zinc-200 mt-0.5">2024/12/25 - 2026/12/25</p>
+          </div>
+        </div>
+      </section>
+
+      <!-- 帳單摘要明細卡片 -->
+      <section class="bg-white rounded-2xl p-5 shadow-sm border border-stone-200/80 receipt-edge space-y-4">
+        <div class="flex items-center justify-between border-b border-dashed border-stone-200 pb-3">
+          <div>
+            <p class="text-xs text-stone-500 font-medium">本期應繳總額 (TOTAL DUE)</p>
+            <div id="balanceDisplay" class="text-2xl font-black text-rose-600 mt-0.5 flex items-baseline gap-1.5">
+              <span>3 項甜蜜任務</span>
+              <span class="text-xs font-normal text-stone-400">/ 待核銷</span>
+            </div>
+          </div>
+          <div id="billStatusBadge" class="px-3 py-1 rounded-full bg-rose-50 text-rose-600 border border-rose-200 text-xs font-bold">
+            待繳費核銷
+          </div>
+        </div>
+
+        <!-- 任務進度條 -->
+        <div class="space-y-1.5">
+          <div class="flex justify-between text-xs font-bold">
+            <span class="text-stone-600">帳單任務核銷進度</span>
+            <span id="progressText" class="text-amber-700 font-mono-num">0 / 3 已入帳</span>
+          </div>
+          <div class="w-full h-3 bg-stone-100 rounded-full overflow-hidden p-0.5 border border-stone-200/60">
+            <div id="progressBar" class="h-full bg-gradient-to-r from-amber-500 to-rose-500 rounded-full transition-all duration-500" style="width: 0%"></div>
+          </div>
+        </div>
+
+        <p class="text-xs text-stone-500 leading-relaxed bg-amber-50/70 p-3 rounded-xl border border-amber-200/60">
+          💡 <strong>繳費說明：</strong>親愛的持卡人，請依序或自由完成下方三項消費明細驗證。全數「已入帳」後，即可免除所有帳單金額並解鎖<strong>「兩週年最終獎勵兌換券」</strong>！
+        </p>
+      </section>
+
+      <!-- 三項消費明細（遊戲關卡列表） -->
+      <section class="space-y-3 pt-1">
+        <div class="flex items-center justify-between px-1">
+          <h3 class="text-xs font-bold tracking-wider text-stone-500 uppercase">本期消費明細 · 任務清單</h3>
+          <span class="text-[11px] text-stone-400">點擊項目開始驗證</span>
+        </div>
+
+        <!-- 任務一卡片 -->
+        <div onclick="openGame(1)" id="taskCard1" class="group bg-white rounded-2xl p-4 shadow-sm border border-stone-200/90 hover:border-amber-400 active:scale-[0.99] transition cursor-pointer relative overflow-hidden">
+          <div class="flex items-center justify-between gap-3">
+            <div class="flex items-center gap-3.5">
+              <div class="w-12 h-12 rounded-xl bg-amber-100 text-amber-700 flex items-center justify-center text-xl font-bold shrink-0">
+                🃏
+              </div>
+              <div>
+                <div class="flex items-center gap-2">
+                  <span class="text-[11px] font-mono-num font-bold text-amber-700 bg-amber-50 px-2 py-0.5 rounded">ITEM 01</span>
+                  <span class="text-[11px] text-stone-400">記憶力考驗</span>
+                </div>
+                <h4 class="font-bold text-base text-zinc-900 mt-0.5">回憶對對樂</h4>
+                <p class="text-xs text-stone-500 mt-0.5">翻開 6 組我們的甜蜜合照並完成配對</p>
+              </div>
+            </div>
+            <div id="status1" class="shrink-0">
+              <span class="inline-flex items-center px-3 py-1.5 rounded-xl bg-zinc-900 text-white text-xs font-bold group-hover:bg-amber-600 transition">
+                前往繳費 →
+              </span>
+            </div>
+          </div>
+        </div>
+
+        <!-- 任務二卡片 -->
+        <div onclick="openGame(2)" id="taskCard2" class="group bg-white rounded-2xl p-4 shadow-sm border border-stone-200/90 hover:border-amber-400 active:scale-[0.99] transition cursor-pointer relative overflow-hidden">
+          <div class="flex items-center justify-between gap-3">
+            <div class="flex items-center gap-3.5">
+              <div class="w-12 h-12 rounded-xl bg-rose-100 text-rose-600 flex items-center justify-center text-xl font-bold shrink-0">
+                🔍
+              </div>
+              <div>
+                <div class="flex items-center gap-2">
+                  <span class="text-[11px] font-mono-num font-bold text-rose-600 bg-rose-50 px-2 py-0.5 rounded">ITEM 02</span>
+                  <span class="text-[11px] text-stone-400">細心度驗證</span>
+                </div>
+                <h4 class="font-bold text-base text-zinc-900 mt-0.5">女友來找碴</h4>
+                <p class="text-xs text-stone-500 mt-0.5">找出維港合照中 4 個隱藏的小驚喜差異</p>
+              </div>
+            </div>
+            <div id="status2" class="shrink-0">
+              <span class="inline-flex items-center px-3 py-1.5 rounded-xl bg-zinc-900 text-white text-xs font-bold group-hover:bg-rose-600 transition">
+                前往繳費 →
+              </span>
+            </div>
+          </div>
+        </div>
+
+        <!-- 任務三卡片 -->
+        <div onclick="openGame(3)" id="taskCard3" class="group bg-white rounded-2xl p-4 shadow-sm border border-stone-200/90 hover:border-amber-400 active:scale-[0.99] transition cursor-pointer relative overflow-hidden">
+          <div class="flex items-center justify-between gap-3">
+            <div class="flex items-center gap-3.5">
+              <div class="w-12 h-12 rounded-xl bg-emerald-100 text-emerald-700 flex items-center justify-center text-xl font-bold shrink-0">
+                🧩
+              </div>
+              <div>
+                <div class="flex items-center gap-2">
+                  <span class="text-[11px] font-mono-num font-bold text-emerald-700 bg-emerald-50 px-2 py-0.5 rounded">ITEM 03</span>
+                  <span class="text-[11px] text-stone-400">專注力拼圖</span>
+                </div>
+                <h4 class="font-bold text-base text-zinc-900 mt-0.5">照片拼拼圖</h4>
+                <p class="text-xs text-stone-500 mt-0.5">點擊交換拼圖，還原世界上最可愛的女友</p>
+              </div>
+            </div>
+            <div id="status3" class="shrink-0">
+              <span class="inline-flex items-center px-3 py-1.5 rounded-xl bg-zinc-900 text-white text-xs font-bold group-hover:bg-emerald-600 transition">
+                前往繳費 →
+              </span>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- 最終獎勵解鎖區（未完成時鎖定，完成後變為亮眼兌換按鈕） -->
+      <section id="rewardLockSection" class="pt-2">
+        <button id="claimRewardBtn" onclick="openRewardModal()" disabled
+          class="w-full py-4 px-5 rounded-2xl font-bold text-sm flex items-center justify-center gap-2 transition-all duration-300 bg-stone-200 text-stone-400 cursor-not-allowed border border-stone-300">
+          <svg id="lockIcon" class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"/>
+          </svg>
+          <span id="claimBtnText">完成 3 項任務後解鎖最終禮物兌換券</span>
+        </button>
+      </section>
+    </main>
+
+    <!-- ==================== 視圖 1：第一關 回憶對對樂 ==================== -->
+    <section id="game1View" class="hidden space-y-4">
+      <div class="bg-white rounded-2xl p-4 shadow-sm border border-stone-200">
+        <div class="flex items-center justify-between mb-3">
+          <button onclick="backToHome()" class="inline-flex items-center gap-1 text-xs font-bold text-stone-600 hover:text-zinc-900 bg-stone-100 px-3 py-2 rounded-xl active:scale-95 transition">
+            ← 返回帳單
+          </button>
+          <span class="text-xs font-mono-num font-bold text-amber-700 bg-amber-50 px-3 py-1.5 rounded-xl border border-amber-200">
+            已配對：<span id="matchCount">0</span> / 6 組
+          </span>
+        </div>
+        <h2 class="text-lg font-black text-zinc-900">任務一：回憶對對樂</h2>
+        <p class="text-xs text-stone-500 mt-0.5">點擊黑卡翻開合照，找出兩兩相同的甜蜜回憶！</p>
+
+        <!-- 3x4 翻牌網格 -->
+        <div id="memoryGrid" class="grid grid-cols-3 gap-2.5 mt-4">
+          <!-- 由 JS 動態生成 12 張卡片 -->
+        </div>
+
+        <div class="mt-4 flex justify-between items-center pt-3 border-t border-stone-100">
+          <span class="text-xs text-stone-400">翻牌次數：<strong id="flipMoves" class="text-stone-700 font-mono-num">0</strong> 次</span>
+          <button onclick="initMemoryGame()" class="text-xs font-bold text-amber-700 hover:underline px-2 py-1">
+            ↻ 重新洗牌
+          </button>
+        </div>
+      </div>
+    </section>
+
+    <!-- ==================== 視圖 2：第二關 女友來找碴 ==================== -->
+    <section id="game2View" class="hidden space-y-4">
+      <div class="bg-white rounded-2xl p-4 shadow-sm border border-stone-200">
+        <div class="flex items-center justify-between mb-3">
+          <button onclick="backToHome()" class="inline-flex items-center gap-1 text-xs font-bold text-stone-600 hover:text-zinc-900 bg-stone-100 px-3 py-2 rounded-xl active:scale-95 transition">
+            ← 返回帳單
+          </button>
+          <span class="text-xs font-mono-num font-bold text-rose-600 bg-rose-50 px-3 py-1.5 rounded-xl border border-rose-200">
+            已找出：<span id="diffFoundCount">0</span> / 4 處
+          </span>
+        </div>
+        <h2 class="text-lg font-black text-zinc-900">任務二：女友來找碴</h2>
+        <p class="text-xs text-stone-500 mt-0.5">對比上下兩張維多利亞港合照，點擊圖片找出 <strong>4 個不一樣</strong> 的地方！</p>
+
+        <!-- 提示小彩蛋訊息框 -->
+        <div id="easterEggBanner" class="mt-3 p-3 rounded-xl bg-rose-50 border border-rose-200 text-xs text-rose-800 flex items-center gap-2 transition-all">
+          <span class="text-base">💝</span>
+          <span id="easterEggText">提示：看看天空、頭頂、衣服文字和肩帶蝴蝶結喔～</span>
+        </div>
+
+        <!-- 上下對照圖容器 -->
+        <div class="space-y-3 mt-3">
+          <!-- 上圖：標準帳單原圖 -->
+          <div class="relative rounded-xl overflow-hidden border-2 border-stone-200 shadow-sm">
+            <span class="absolute top-2 left-2 z-20 px-2.5 py-0.5 rounded-md bg-black/65 text-white text-[10px] font-bold backdrop-blur-sm">
+              A. 標準帳單原圖
+            </span>
+            <div id="diffContainerTop" class="relative w-full aspect-[4/3] bg-stone-100 cursor-pointer select-none" onclick="handleDiffClick(event, 'top')">
+              <img id="diffBaseImg" src="IMG_m2.jpg" alt="維港合照原圖" class="w-full h-full object-cover block pointer-events-none"
+                   onerror="this.src='https://placehold.co/800x600/e2e8f0/475569?text=IMG_m2.jpg'" />
+            </div>
+          </div>
+
+          <!-- 下圖：找碴修改版（疊加精緻 SVG/Canvas 差異元素） -->
+          <div class="relative rounded-xl overflow-hidden border-2 border-rose-300 shadow-sm">
+            <span class="absolute top-2 left-2 z-20 px-2.5 py-0.5 rounded-md bg-rose-600/85 text-white text-[10px] font-bold backdrop-blur-sm">
+              B. 驚喜修改版（點這裡找不同！）
+            </span>
+            <div id="diffContainerBottom" class="relative w-full aspect-[4/3] bg-stone-100 cursor-pointer select-none" onclick="handleDiffClick(event, 'bottom')">
+              <img src="IMG_m2.jpg" alt="維港合照修改版" class="w-full h-full object-cover block pointer-events-none"
+                   onerror="this.src='https://placehold.co/800x600/e2e8f0/475569?text=IMG_m2.jpg'" />
+
+              <!-- 差異點 1：維港天空左上方多了一朵愛心雲朵 (x: 20%, y: 24%) -->
+              <svg class="absolute pointer-events-none" style="left: 15%; top: 19%; width: 10%; height: 10%;" viewBox="0 0 64 64">
+                <path d="M32 54 C32 54 8 38 8 22 C8 14 14 8 22 8 C27 8 30 11 32 14 C34 11 37 8 42 8 C50 8 56 14 56 22 C56 38 32 54 32 54 Z" fill="#ffffff" fill-opacity="0.88" stroke="#fda4af" stroke-width="2"/>
+              </svg>
+
+              <!-- 差異點 2：女友頭頂比愛心的手旁邊多了一頂金色小皇冠 (x: 42%, y: 26%) -->
+              <svg class="absolute pointer-events-none" style="left: 38%; top: 20%; width: 9%; height: 9%; transform: rotate(-12deg);" viewBox="0 0 64 64">
+                <path d="M8 48 L12 20 L25 32 L32 14 L39 32 L52 20 L56 48 Z" fill="#fbbf24" stroke="#b45309" stroke-width="2.5" stroke-linejoin="round"/>
+                <circle cx="12" cy="17" r="3" fill="#f43f5e"/>
+                <circle cx="32" cy="11" r="3.5" fill="#f43f5e"/>
+                <circle cx="52" cy="17" r="3" fill="#f43f5e"/>
+              </svg>
+
+              <!-- 差異點 3：男友白色 T 恤胸前多了一顆紅色小愛心徽章 (x: 62%, y: 78%) -->
+              <svg class="absolute pointer-events-none" style="left: 59%; top: 73%; width: 7%; height: 7%;" viewBox="0 0 64 64">
+                <path d="M32 54 C32 54 10 39 10 23 C10 15 16 10 23 10 C27 10 30 12 32 15 C34 12 37 10 41 10 C48 10 54 15 54 23 C54 39 32 54 32 54 Z" fill="#e11d48" stroke="#ffffff" stroke-width="2.5"/>
+              </svg>
+
+              <!-- 差異點 4：女友肩帶蝴蝶結上變色成粉紅蝴蝶結 (x: 47%, y: 80%) -->
+              <svg class="absolute pointer-events-none" style="left: 42.5%; top: 76%; width: 9.5%; height: 9.5%; transform: rotate(-18deg);" viewBox="0 0 64 64">
+                <path d="M32 32 L12 18 C8 24 8 40 12 46 Z" fill="#f472b6" stroke="#be185d" stroke-width="2"/>
+                <path d="M32 32 L52 18 C56 24 56 40 52 46 Z" fill="#f472b6" stroke="#be185d" stroke-width="2"/>
+                <circle cx="32" cy="32" r="6" fill="#db2777" stroke="#ffffff" stroke-width="1.5"/>
+              </svg>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ==================== 視圖 3：第三關 照片拼拼圖 ==================== -->
+    <section id="game3View" class="hidden space-y-4">
+      <div class="bg-white rounded-2xl p-4 shadow-sm border border-stone-200">
+        <div class="flex items-center justify-between mb-3">
+          <button onclick="backToHome()" class="inline-flex items-center gap-1 text-xs font-bold text-stone-600 hover:text-zinc-900 bg-stone-100 px-3 py-2 rounded-xl active:scale-95 transition">
+            ← 返回帳單
+          </button>
+          <button onmousedown="togglePeek(true)" onmouseup="togglePeek(false)" onmouseleave="togglePeek(false)"
+                  ontouchstart="togglePeek(true)" ontouchend="togglePeek(false)"
+                  class="inline-flex items-center gap-1.5 text-xs font-bold text-emerald-700 bg-emerald-50 border border-emerald-200 px-3 py-2 rounded-xl active:scale-95 transition select-none">
+            👁️ 長按偷看原圖
+          </button>
+        </div>
+
+        <h2 class="text-lg font-black text-zinc-900">任務三：照片拼拼圖</h2>
+        <p class="text-xs text-stone-500 mt-0.5">先點選一塊拼圖，再點選另一塊即可交換位置，拼出最可愛的女友！</p>
+
+        <!-- 拼圖容器 (比例 4:5 貼近直式人像照) -->
+        <div class="relative w-full aspect-[4/5] mt-4 rounded-xl overflow-hidden border-2 border-stone-200 bg-stone-100 shadow-inner">
+          <!-- 3x3 拼圖網格 -->
+          <div id="puzzleGrid" class="w-full h-full grid grid-cols-3 grid-rows-3 gap-[2px] bg-stone-300">
+            <!-- 由 JS 動態生成 9 塊拼圖 -->
+          </div>
+
+          <!-- 偷看原圖覆蓋層 -->
+          <div id="peekOverlay" class="hidden absolute inset-0 z-30 bg-black/20 backdrop-blur-[1px]">
+            <img src="IMG_m3.jpg" alt="原圖參考" class="w-full h-full object-cover"
+                 onerror="this.src='https://placehold.co/600x750/e2e8f0/475569?text=IMG_m3.jpg'" />
+            <span class="absolute bottom-3 left-1/2 -translate-x-1/2 px-3 py-1 rounded-full bg-black/75 text-white text-xs font-bold">
+              原圖參考中（放開恢復）
+            </span>
+          </div>
+        </div>
+
+        <div class="mt-4 flex justify-between items-center pt-3 border-t border-stone-100">
+          <span class="text-xs text-stone-400">交換步數：<strong id="puzzleMoves" class="text-stone-700 font-mono-num">0</strong> 步</span>
+          <button onclick="initPuzzleGame()" class="text-xs font-bold text-emerald-700 hover:underline px-2 py-1">
+            ↻ 重新打亂
+          </button>
+        </div>
+      </div>
+    </section>
+
+  </div>
+
+  <!-- ==================== 關卡完成祝賀彈窗 ==================== -->
+  <div id="stageClearModal" class="hidden fixed inset-0 z-50 bg-black/60 backdrop-blur-sm flex items-center justify-center p-4">
+    <div class="bg-white rounded-3xl max-w-sm w-full p-6 text-center shadow-2xl border border-amber-200 space-y-4 animate-[stampDrop_0.3s_ease-out]">
+      <div class="w-16 h-16 rounded-2xl bg-amber-100 text-amber-600 flex items-center justify-center text-3xl mx-auto">
+        🎉
+      </div>
+      <div>
+        <span class="inline-block px-3 py-0.5 rounded-full bg-red-50 text-red-600 border border-red-200 text-xs font-black tracking-wider mb-1">
+          驗證成功 · 已入帳
+        </span>
+        <h3 id="clearModalTitle" class="text-xl font-black text-zinc-900">任務完成！</h3>
+        <p id="clearModalDesc" class="text-xs text-stone-500 mt-1.5 leading-relaxed">
+          太棒了！這筆甜蜜回憶已成功核銷入帳。
+        </p>
+      </div>
+      <button onclick="closeStageClearModal()" class="w-full py-3.5 rounded-xl bg-zinc-900 text-amber-300 font-bold text-sm shadow-md hover:bg-zinc-800 active:scale-95 transition">
+        返回帳單查看進度
+      </button>
+    </div>
+  </div>
+
+  <!-- ==================== 最終兩週年禮物兌換券彈窗 ==================== -->
+  <div id="rewardModal" class="hidden fixed inset-0 z-50 bg-black/75 backdrop-blur-md flex items-center justify-center p-4 overflow-y-auto">
+    <div class="bg-[#faf8f5] rounded-3xl max-w-sm w-full overflow-hidden shadow-2xl border-2 border-amber-400 my-auto">
+      <!-- 頂部黑金祝賀橫幅 -->
+      <div class="vip-card-bg p-6 text-center text-white relative">
+        <span class="inline-block px-3 py-1 rounded-full bg-amber-400/20 text-amber-300 border border-amber-400/40 text-[10px] font-bold tracking-widest mb-2">
+          PAYMENT COMPLETED · $0 DUE
+        </span>
+        <h2 class="text-2xl font-black text-amber-200 tracking-wide">兩週年專屬禮物兌換券</h2>
+        <p class="text-xs text-zinc-300 mt-1">恭喜全數任務核銷完畢，帳單已全額繳清！</p>
+      </div>
+
+      <!-- 兌換券內容區 -->
+      <div class="p-6 space-y-4">
+        <div class="bg-white rounded-2xl p-4 border border-dashed border-amber-400/80 space-y-2.5 text-left relative">
+          <div class="flex justify-between items-center text-xs text-stone-400 border-b border-stone-100 pb-2">
+            <span>憑證編號 VOUCHER NO.</span>
+            <span class="font-mono-num font-bold text-zinc-700">#LOVE-2ND-2026</span>
+          </div>
+          <div>
+            <p class="text-[11px] text-stone-400">可兌換項目 REWARD</p>
+            <p class="text-base font-black text-rose-600 mt-0.5">🎁 兩週年神秘實體大禮 ＋ 女友無限寵愛一次</p>
+          </div>
+          <div class="pt-1">
+            <p class="text-[11px] text-stone-400">給親愛的你</p>
+            <p class="text-xs text-stone-600 leading-relaxed mt-0.5">
+              謝謝你這兩年來的陪伴、包容與每一次帶我去看美麗的風景。未來的每一年帳單，也要繼續一起刷滿幸福喔！兩週年快樂 ❤️
+            </p>
+          </div>
+        </div>
+
+        <!-- 核銷狀態按鈕 -->
+        <div id="redeemActionArea">
+          <button onclick="confirmRedeem()" class="w-full py-3.5 rounded-xl bg-gradient-to-r from-amber-500 to-rose-500 text-white font-black text-sm shadow-lg active:scale-95 transition">
+            ✨ 點擊核銷並截圖向女友領獎
+          </button>
+        </div>
+
+        <button onclick="closeRewardModal()" class="w-full py-2.5 text-xs font-bold text-stone-400 hover:text-stone-600">
+          關閉視窗
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- 應用程式邏輯腳本 -->
+  <script>
+    // ==================== 全域狀態管理 ====================
+    const gameState = {
+      completed: {
+        1: false,
+        2: false,
+        3: false
+      },
+      soundEnabled: true,
+      redeemed: false
+    };
+
+    // 音效合成器 (使用 Tone.js，無需外部音檔)
+    let synth = null;
+    function playTone(note, duration = "16n") {
+      if (!gameState.soundEnabled) return;
+      try {
+        if (!synth) {
+          synth = new Tone.PolySynth(Tone.Synth).toDestination();
+          synth.volume.value = -8;
+        }
+        if (Tone.context.state !== 'running') {
+          Tone.start();
+        }
+        synth.triggerAttackRelease(note, duration);
+      } catch (e) {
+        // 忽略自動播放限制錯誤
+      }
+    }
+
+    function toggleSound() {
+      gameState.soundEnabled = !gameState.soundEnabled;
+      document.getElementById('soundIconOn').classList.toggle('hidden', !gameState.soundEnabled);
+      document.getElementById('soundIconOff').classList.toggle('hidden', gameState.soundEnabled);
+      if (gameState.soundEnabled) playTone("C5");
+    }
+
+    // ==================== 視圖切換導航 ====================
+    function showView(viewId) {
+      ['homeView', 'game1View', 'game2View', 'game3View'].forEach(id => {
+        document.getElementById(id).classList.add('hidden');
+      });
+      document.getElementById(viewId).classList.remove('hidden');
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    function backToHome() {
+      playTone("G4");
+      showView('homeView');
+      updateHomeDashboard();
+    }
+
+    function openGame(stage) {
+      playTone("E5");
+      if (stage === 1) {
+        showView('game1View');
+        if (memoryCards.length === 0) initMemoryGame();
+      } else if (stage === 2) {
+        showView('game2View');
+      } else if (stage === 3) {
+        showView('game3View');
+        if (puzzleTiles.length === 0) initPuzzleGame();
+      }
+    }
+
+    // ==================== 更新首頁帳單狀態 ====================
+    function updateHomeDashboard() {
+      const doneCount = Object.values(gameState.completed).filter(Boolean).length;
+      document.getElementById('progressText').textContent = `${doneCount} / 3 已入帳`;
+      document.getElementById('progressBar').style.width = `${(doneCount / 3) * 100}%`;
+
+      // 更新個別任務印章
+      [1, 2, 3].forEach(num => {
+        if (gameState.completed[num]) {
+          document.getElementById(`status${num}`).innerHTML = `
+            <span class="stamp-badge inline-block px-2.5 py-1 rounded text-xs">
+              已入帳
+            </span>
+          `;
+        }
+      });
+
+      // 全部完成時更新帳單總額與兌換券按鈕
+      if (doneCount === 3) {
+        document.getElementById('balanceDisplay').innerHTML = `
+          <span class="text-emerald-600 font-mono-num">$0</span>
+          <span class="text-xs font-bold text-emerald-600">（已全額繳清）</span>
+        `;
+        const badge = document.getElementById('billStatusBadge');
+        badge.textContent = "全額已繳清";
+        badge.className = "px-3 py-1 rounded-full bg-emerald-50 text-emerald-700 border border-emerald-200 text-xs font-bold";
+
+        const btn = document.getElementById('claimRewardBtn');
+        btn.disabled = false;
+        btn.className = "w-full py-4 px-5 rounded-2xl font-black text-sm flex items-center justify-center gap-2 transition-all duration-300 bg-gradient-to-r from-amber-500 via-amber-400 to-rose-500 text-zinc-950 shadow-lg shadow-amber-500/25 cursor-pointer animate-pulse";
+        document.getElementById('lockIcon').innerHTML = `<path stroke-linecap="round" stroke-linejoin="round" d="M12 8v13m0-13V6a2 2 0 112 2h-2zm0 0V5.5A2.5 2.5 0 109.5 8H12zm-7 4h14M5 12a2 2 0 110-4h14a2 2 0 110 4M5 12v7a2 2 0 002 2h10a2 2 0 002-2v-7"/>`;
+        document.getElementById('claimBtnText').textContent = "🎁 領取「兩週年最終獎勵兌換券」";
+      }
+    }
+
+    function markStageCompleted(stage, title, desc) {
+      gameState.completed[stage] = true;
+      playTone(["C5", "E5", "G5", "C6"], "8n");
+      launchConfetti();
+      document.getElementById('clearModalTitle').textContent = title;
+      document.getElementById('clearModalDesc').textContent = desc;
+      document.getElementById('stageClearModal').classList.remove('hidden');
+    }
+
+    function closeStageClearModal() {
+      document.getElementById('stageClearModal').classList.add('hidden');
+      backToHome();
+    }
+
+    // ==================== 遊戲 1：回憶對對樂 ====================
+    const couplePhotos = [
+      { id: 1, src: "IMG_01.jpeg", label: "湖畔微風與小相機" },
+      { id: 2, src: "IMG_02.jpg", label: "鐵道旁的大愛心" },
+      { id: 3, src: "IMG_03.jpeg", label: "專屬手繪生日蛋糕" },
+      { id: 4, src: "IMG_04.jpg", label: "長頸鹿雨衣大冒險" },
+      { id: 5, src: "IMG_05.jpg", label: "貓咪咖啡廳的午後" },
+      { id: 6, src: "IMG_06.jpeg", label: "迪士尼城堡前的我們" }
+    ];
+
+    let memoryCards = [];
+    let flippedIndices = [];
+    let matchedPairs = 0;
+    let flipMoves = 0;
+    let isCheckingMatch = false;
+
+    function initMemoryGame() {
+      matchedPairs = 0;
+      flipMoves = 0;
+      flippedIndices = [];
+      isCheckingMatch = false;
+      document.getElementById('matchCount').textContent = "0";
+      document.getElementById('flipMoves').textContent = "0";
+
+      // 複製成對並洗牌
+      const deck = [...couplePhotos, ...couplePhotos]
+        .map(item => ({ ...item, uid: Math.random() }))
+        .sort(() => Math.random() - 0.5);
+      memoryCards = deck;
+
+      const grid = document.getElementById('memoryGrid');
+      grid.innerHTML = '';
+
+      deck.forEach((card, index) => {
+        const cardEl = document.createElement('div');
+        cardEl.className = 'flip-card aspect-[3/4] cursor-pointer perspective-1000 select-none';
+        cardEl.dataset.index = index;
+        cardEl.onclick = () => handleCardFlip(index);
+
+        cardEl.innerHTML = `
+          <div class="flip-card-inner shadow-sm">
+            <!-- 卡背：黑金信用卡晶片質感 -->
+            <div class="flip-card-front vip-card-bg border border-amber-400/30 flex flex-col items-center justify-center p-2 text-center">
+              <div class="w-7 h-5 rounded bg-gradient-to-br from-amber-200 to-amber-500 opacity-80 mb-1.5"></div>
+              <span class="text-[10px] font-mono-num tracking-widest text-amber-300/90 font-bold">LOVE</span>
+              <span class="text-[9px] text-zinc-400 mt-0.5">2ND VIP</span>
+            </div>
+            <!-- 卡面：甜蜜合照 -->
+            <div class="flip-card-back bg-white border-2 border-amber-400">
+              <img src="${card.src}" alt="${card.label}" class="w-full h-full object-cover"
+                   onerror="this.src='https://placehold.co/300x400/18181b/fbbf24?text=${encodeURIComponent(card.label)}'" />
+            </div>
+          </div>
+        `;
+        grid.appendChild(cardEl);
+      });
+    }
+
+    function handleCardFlip(index) {
+      if (isCheckingMatch) return;
+      const cardNodes = document.querySelectorAll('#memoryGrid .flip-card');
+      const targetNode = cardNodes[index];
+
+      if (targetNode.classList.contains('flipped') || targetNode.classList.contains('matched')) return;
+
+      playTone("D5", "32n");
+      targetNode.classList.add('flipped');
+      flippedIndices.push(index);
+
+      if (flippedIndices.length === 2) {
+        flipMoves++;
+        document.getElementById('flipMoves').textContent = flipMoves;
+        isCheckingMatch = true;
+
+        const [idx1, idx2] = flippedIndices;
+        if (memoryCards[idx1].id === memoryCards[idx2].id) {
+          // 配對成功
+          setTimeout(() => {
+            playTone(["E5", "G5"], "16n");
+            cardNodes[idx1].classList.add('matched');
+            cardNodes[idx2].classList.add('matched');
+            matchedPairs++;
+            document.getElementById('matchCount').textContent = matchedPairs;
+            flippedIndices = [];
+            isCheckingMatch = false;
+
+            if (matchedPairs === 6) {
+              setTimeout(() => {
+                markStageCompleted(1, "任務一：回憶對對樂通關！", "每一張合照都是我們最珍貴的寶藏，記憶力滿分已入帳！");
+              }, 400);
+            }
+          }, 350);
+        } else {
+          // 配對失敗蓋回
+          setTimeout(() => {
+            cardNodes[idx1].classList.remove('flipped');
+            cardNodes[idx2].classList.remove('flipped');
+            flippedIndices = [];
+            isCheckingMatch = false;
+          }, 750);
+        }
+      }
+    }
+
+    // ==================== 遊戲 2：女友來找碴 ====================
+    // 座標以百分比 (0~100) 定義，確保任何螢幕尺寸皆精準點擊
+    const differences = [
+      {
+        id: 1,
+        x: 20,
+        y: 24,
+        radius: 10,
+        found: false,
+        message: "☁️ 彩蛋 1/4：發現天空中的愛心雲朵！連維港的天空都在對我們比愛心～"
+      },
+      {
+        id: 2,
+        x: 42.5,
+        y: 24.5,
+        radius: 10,
+        found: false,
+        message: "👑 彩蛋 2/4：發現小皇冠！謝謝你把我寵成小公主，獎勵親親一個！"
+      },
+      {
+        id: 3,
+        x: 62.5,
+        y: 76.5,
+        radius: 10,
+        found: false,
+        message: "❤️ 彩蛋 3/4：發現胸前小愛心！你的心裡是不是也裝滿了我呀？"
+      },
+      {
+        id: 4,
+        x: 47,
+        y: 80.5,
+        radius: 10,
+        found: false,
+        message: "🎀 彩蛋 4/4：發現變色的粉紅蝴蝶結！眼力太厲害啦，細節滿分！"
+      }
+    ];
+
+    function handleDiffClick(event, which) {
+      const container = event.currentTarget;
+      const rect = container.getBoundingClientRect();
+      const clickX = ((event.clientX - rect.left) / rect.width) * 100;
+      const clickY = ((event.clientY - rect.top) / rect.height) * 100;
+
+      let hitNew = false;
+
+      differences.forEach(diff => {
+        if (diff.found) return;
+        const dist = Math.hypot(clickX - diff.x, clickY - diff.y);
+        if (dist <= diff.radius) {
+          diff.found = true;
+          hitNew = true;
+          playTone(["F5", "A5"], "16n");
+
+          // 在上下兩張圖同步加上紅圈標記
+          ['diffContainerTop', 'diffContainerBottom'].forEach(cId => {
+            const marker = document.createElement('div');
+            marker.className = 'diff-marker';
+            marker.style.left = `${diff.x}%`;
+            marker.style.top = `${diff.y}%`;
+            marker.style.width = '38px';
+            marker.style.height = '38px';
+            document.getElementById(cId).appendChild(marker);
+          });
+
+          // 更新彩蛋提示框
+          const banner = document.getElementById('easterEggBanner');
+          banner.className = "mt-3 p-3 rounded-xl bg-rose-600 text-white text-xs font-bold flex items-center gap-2 shadow-md transition-all";
+          document.getElementById('easterEggText').textContent = diff.message;
+        }
+      });
+
+      if (!hitNew) {
+        playTone("C4", "32n");
+      }
+
+      const foundCount = differences.filter(d => d.found).length;
+      document.getElementById('diffFoundCount').textContent = foundCount;
+
+      if (foundCount === differences.length && hitNew) {
+        setTimeout(() => {
+          markStageCompleted(2, "任務二：女友來找碴通關！", "4 個隱藏甜蜜小彩蛋全部被你找到了，細心度 100 分已入帳！");
+        }, 700);
+      }
+    }
+
+    // ==================== 遊戲 3：照片拼拼圖 (3x3 點擊交換) ====================
+    let puzzleTiles = []; // 儲存目前每個格子放的是哪一塊拼圖 (0~8)
+    let selectedTileIdx = null;
+    let puzzleMoves = 0;
+
+    function initPuzzleGame() {
+      selectedTileIdx = null;
+      puzzleMoves = 0;
+      document.getElementById('puzzleMoves').textContent = "0";
+
+      // 產生 0~8 陣列並打亂（確保不是已完成狀態）
+      puzzleTiles = [0, 1, 2, 3, 4, 5, 6, 7, 8];
+      do {
+        puzzleTiles.sort(() => Math.random() - 0.5);
+      } while (puzzleTiles.every((val, idx) => val === idx));
+
+      renderPuzzle();
+    }
+
+    function renderPuzzle() {
+      const grid = document.getElementById('puzzleGrid');
+      grid.innerHTML = '';
+
+      puzzleTiles.forEach((pieceIndex, gridPosition) => {
+        const tile = document.createElement('div');
+        tile.className = `relative w-full h-full cursor-pointer overflow-hidden transition-transform duration-150 select-none ${selectedTileIdx === gridPosition ? 'puzzle-selected' : ''}`;
+        tile.onclick = () => handlePuzzleTileClick(gridPosition);
+
+        // 計算該拼圖塊在 3x3 原圖中的背景位置
+        const row = Math.floor(pieceIndex / 3);
+        const col = pieceIndex % 3;
+
+        tile.style.backgroundImage = `url('IMG_m3.jpg')`;
+        tile.style.backgroundSize = '300% 300%';
+        tile.style.backgroundPosition = `${col * 50}% ${row * 50}%`;
+
+        // 角落加上極淡編號輔助
+        const numBadge = document.createElement('span');
+        numBadge.className = "absolute top-1 left-1 w-4 h-4 rounded-full bg-black/35 text-white text-[9px] flex items-center justify-center font-mono-num pointer-events-none";
+        numBadge.textContent = pieceIndex + 1;
+        tile.appendChild(numBadge);
+
+        grid.appendChild(tile);
+      });
+    }
+
+    function handlePuzzleTileClick(gridPosition) {
+      if (selectedTileIdx === null) {
+        // 選取第一塊
+        playTone("E5", "32n");
+        selectedTileIdx = gridPosition;
+        renderPuzzle();
+      } else if (selectedTileIdx === gridPosition) {
+        // 取消選取
+        selectedTileIdx = null;
+        renderPuzzle();
+      } else {
+        // 交換兩塊拼圖
+        playTone("G5", "32n");
+        const temp = puzzleTiles[selectedTileIdx];
+        puzzleTiles[selectedTileIdx] = puzzleTiles[gridPosition];
+        puzzleTiles[gridPosition] = temp;
+
+        selectedTileIdx = null;
+        puzzleMoves++;
+        document.getElementById('puzzleMoves').textContent = puzzleMoves;
+        renderPuzzle();
+
+        // 檢查是否全部歸位
+        const isSolved = puzzleTiles.every((val, idx) => val === idx);
+        if (isSolved) {
+          setTimeout(() => {
+            markStageCompleted(3, "世界上最可愛的女友認證成功！", "拼圖完美還原！三項甜蜜任務全數達成，快去領取兩週年專屬禮物吧！");
+          }, 350);
+        }
+      }
+    }
+
+    function togglePeek(show) {
+      const overlay = document.getElementById('peekOverlay');
+      if (show) {
+        overlay.classList.remove('hidden');
+      } else {
+        overlay.classList.add('hidden');
+      }
+    }
+
+    // ==================== 最終禮物兌換券互動 ====================
+    function openRewardModal() {
+      playTone(["C5", "E5", "G5", "B5"], "4n");
+      launchConfetti();
+      document.getElementById('rewardModal').classList.remove('hidden');
+    }
+
+    function closeRewardModal() {
+      document.getElementById('rewardModal').classList.add('hidden');
+    }
+
+    function confirmRedeem() {
+      gameState.redeemed = true;
+      playTone(["G5", "C6"], "8n");
+      launchConfetti();
+      const now = new Date();
+      const timeStr = `${now.getFullYear()}/${String(now.getMonth()+1).padStart(2,'0')}/${String(now.getDate()).padStart(2,'0')} ${String(now.getHours()).padStart(2,'0')}:${String(now.getMinutes()).padStart(2,'0')}`;
+
+      document.getElementById('redeemActionArea').innerHTML = `
+        <div class="p-3 rounded-xl bg-emerald-50 border border-emerald-300 text-center space-y-1">
+          <p class="text-sm font-black text-emerald-700">✅ 兌換券已正式核銷生效</p>
+          <p class="text-[11px] font-mono-num text-emerald-600">核銷時間：${timeStr}</p>
+          <p class="text-[11px] text-stone-500">請直接出示此畫面給女友領取實體禮物！</p>
+        </div>
+      `;
+    }
+
+    // ==================== 慶祝彩帶特效 ====================
+    function launchConfetti() {
+      const colors = ['#f59e0b', '#f43f5e', '#10b981', '#fbbf24', '#fb7185'];
+      for (let i = 0; i < 36; i++) {
+        const piece = document.createElement('div');
+        piece.className = 'confetti-piece rounded-sm';
+        piece.style.left = `${Math.random() * 100}vw`;
+        piece.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
+        piece.style.animationDuration = `${1.8 + Math.random() * 1.5}s`;
+        piece.style.animationDelay = `${Math.random() * 0.3}s`;
+        document.body.appendChild(piece);
+        setTimeout(() => piece.remove(), 3500);
+      }
+    }
+
+    // 頁面載入初始化
+    window.onload = function() {
+      updateHomeDashboard();
+    };
+  </script>
+</body>
+</html>
